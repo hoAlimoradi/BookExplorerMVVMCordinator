@@ -1,26 +1,27 @@
 //
-//  HomeViewModel.swift
+//  DetailsViewModel.swift
 //  SpaceXSingleModule
 //
 //  Created by ho on 4/9/1403 AP.
 //
+
 import Combine
 import Foundation
 
-final class HomeViewModel: HomeViewModelProtocol {
+final class DetailsViewModel: DetailsViewModelProtocol {
 
     private enum Constants {
     }
 
     // MARK: - Properties
-    var route = CurrentValueSubject<HomeRouteAction, Never>(.idleRoute)
+    var route = CurrentValueSubject<DetailsRouteAction, Never>(.idleRoute)
     private let launcheAPI: LauncheAPIProtocol
     // MARK: - Initialize
-    init(configuration: HomeModule.Configuration) {
+    init(configuration: DetailsModule.Configuration) {
         launcheAPI = configuration.launcheAPI
     }
 
-    func action(_ handler: HomeViewModelAction) {
+    func action(_ handler: DetailsViewModelAction) {
         switch handler {
         case .navigateToMainTab:
             navigateToMainTab()
@@ -32,4 +33,3 @@ final class HomeViewModel: HomeViewModelProtocol {
         route.send(.navigateToMainTab)
     }
 }
-

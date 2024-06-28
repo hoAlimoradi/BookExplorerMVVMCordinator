@@ -1,16 +1,16 @@
 //
-//  HomeRouting.swift
+//  DetailsRouting.swift
 //  SpaceXSingleModule
 //
 //  Created by ho on 4/9/1403 AP.
 //
 import UIKit
 
-protocol HomeRouting: CoordinatorRouter {
+protocol DetailsRouting: CoordinatorRouter {
     func navigateToDetials()
 }
 
-final class HomeRouter: HomeRouting {
+final class DetailsRouter: DetailsRouting {
 
     // MARK: - Properties
     internal var coordinator: ProjectCoordinatorProtocol?
@@ -25,4 +25,3 @@ final class HomeRouter: HomeRouting {
         coordinator?.navigateToSignupUserInfo()
     }
 }
-

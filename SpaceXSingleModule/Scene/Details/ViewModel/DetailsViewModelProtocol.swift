@@ -1,5 +1,5 @@
 //
-//  HomeViewModelProtocol.swift
+//  DetailsViewModelProtocol.swift
 //  SpaceXSingleModule
 //
 //  Created by ho on 4/9/1403 AP.
@@ -7,17 +7,17 @@
 import Foundation
 import Combine
 
-protocol HomeViewModelProtocol {
-    func action(_ handler: HomeViewModelAction)
+protocol DetailsViewModelProtocol {
+    func action(_ handler: DetailsViewModelAction)
 }
 
-enum HomeFetchState: Equatable {
+enum DetailsFetchState: Equatable {
     case idle
     case loading
     case success(String?)
     case failed(Error)
 
-    static func == (lhs: HomeFetchState, rhs: HomeFetchState) -> Bool {
+    static func == (lhs: DetailsFetchState, rhs: DetailsFetchState) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle), (.loading, .loading):
             return true
@@ -30,14 +30,15 @@ enum HomeFetchState: Equatable {
     }
 }
 
-enum HomeRouteAction {
+enum DetailsRouteAction {
     case idleRoute
     case navigateToMainTab
 }
  
-enum HomeViewModelAction {
+enum DetailsViewModelAction {
     case navigateToMainTab
 }
+
 
 
 
