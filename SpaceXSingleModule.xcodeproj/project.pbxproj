@@ -54,6 +54,9 @@
 		C67992802C2EF799006B1E2D /* HTTPStatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67992702C2EF799006B1E2D /* HTTPStatusCode.swift */; };
 		C67992862C2EF86D006B1E2D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C67992852C2EF86D006B1E2D /* Kingfisher */; };
 		C67992902C2EF9A0006B1E2D /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = C679928F2C2EF9A0006B1E2D /* Sentry */; };
+		C67992972C2F05BE006B1E2D /* RoundedCornerDimens.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67992962C2F05BE006B1E2D /* RoundedCornerDimens.swift */; };
+		C67992992C2F05D5006B1E2D /* Margins.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67992982C2F05D5006B1E2D /* Margins.swift */; };
+		C679929B2C2F05E8006B1E2D /* ButtonHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = C679929A2C2F05E8006B1E2D /* ButtonHeight.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +126,9 @@
 		C679926D2C2EF799006B1E2D /* WebLoggerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebLoggerProtocol.swift; sourceTree = "<group>"; };
 		C679926F2C2EF799006B1E2D /* HeaderFieldModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderFieldModel.swift; sourceTree = "<group>"; };
 		C67992702C2EF799006B1E2D /* HTTPStatusCode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatusCode.swift; sourceTree = "<group>"; };
+		C67992962C2F05BE006B1E2D /* RoundedCornerDimens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornerDimens.swift; sourceTree = "<group>"; };
+		C67992982C2F05D5006B1E2D /* Margins.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Margins.swift; sourceTree = "<group>"; };
+		C679929A2C2F05E8006B1E2D /* ButtonHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonHeight.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +181,9 @@
 		C65133962C2EEE7A00DE3732 /* SpaceXSingleModule */ = {
 			isa = PBXGroup;
 			children = (
+				C679929D2C2F0611006B1E2D /* Core */,
+				C67992942C2F0590006B1E2D /* Coordinator */,
+				C67992932C2F0584006B1E2D /* Scene */,
 				C67992362C2EF518006B1E2D /* Resources */,
 				C65133C72C2EF04400DE3732 /* Modules */,
 				C65133972C2EEE7A00DE3732 /* AppDelegate.swift */,
@@ -285,6 +294,9 @@
 		C67992372C2EF52B006B1E2D /* SharedUI */ = {
 			isa = PBXGroup;
 			children = (
+				C67992952C2F05AA006B1E2D /* Dimens */,
+				C67992922C2F054C006B1E2D /* Extensions */,
+				C67992912C2F052E006B1E2D /* Components */,
 				C67992382C2EF53D006B1E2D /* Theme */,
 			);
 			path = SharedUI;
@@ -429,6 +441,99 @@
 			children = (
 			);
 			path = ExporterAPI;
+			sourceTree = "<group>";
+		};
+		C67992912C2F052E006B1E2D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		C67992922C2F054C006B1E2D /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C67992932C2F0584006B1E2D /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				C67992A22C2F0A10006B1E2D /* Details */,
+				C67992A12C2F090C006B1E2D /* Favorite */,
+				C67992A02C2F08E2006B1E2D /* Home */,
+				C679929F2C2F08AC006B1E2D /* Search */,
+				C679929E2C2F088E006B1E2D /* MainTabbar */,
+				C679929C2C2F0604006B1E2D /* Splash */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		C67992942C2F0590006B1E2D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		C67992952C2F05AA006B1E2D /* Dimens */ = {
+			isa = PBXGroup;
+			children = (
+				C67992962C2F05BE006B1E2D /* RoundedCornerDimens.swift */,
+				C67992982C2F05D5006B1E2D /* Margins.swift */,
+				C679929A2C2F05E8006B1E2D /* ButtonHeight.swift */,
+			);
+			path = Dimens;
+			sourceTree = "<group>";
+		};
+		C679929C2C2F0604006B1E2D /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		C679929D2C2F0611006B1E2D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		C679929E2C2F088E006B1E2D /* MainTabbar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MainTabbar;
+			sourceTree = "<group>";
+		};
+		C679929F2C2F08AC006B1E2D /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		C67992A02C2F08E2006B1E2D /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		C67992A12C2F090C006B1E2D /* Favorite */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Favorite;
+			sourceTree = "<group>";
+		};
+		C67992A22C2F0A10006B1E2D /* Details */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Details;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -585,6 +690,7 @@
 				C67992542C2EF750006B1E2D /* extension+Error.swift in Sources */,
 				C67992782C2EF799006B1E2D /* URLRequestLoggable.swift in Sources */,
 				C65133D72C2EF26800DE3732 /* BaseApiResponseModel.swift in Sources */,
+				C67992972C2F05BE006B1E2D /* RoundedCornerDimens.swift in Sources */,
 				C679927D2C2EF799006B1E2D /* WebLogger.swift in Sources */,
 				C67992772C2EF799006B1E2D /* NSURLSessionPinningDelegate.swift in Sources */,
 				C67992792C2EF799006B1E2D /* URLRequestLoggableProtocol.swift in Sources */,
@@ -594,9 +700,11 @@
 				C679927A2C2EF799006B1E2D /* SessionConfiguration.swift in Sources */,
 				C65133D92C2EF29A00DE3732 /* Environment.swift in Sources */,
 				C67992752C2EF799006B1E2D /* NetworkMonitor.swift in Sources */,
+				C679929B2C2F05E8006B1E2D /* ButtonHeight.swift in Sources */,
 				C67992562C2EF750006B1E2D /* CustomLocalizedError.swift in Sources */,
 				C679925B2C2EF77C006B1E2D /* LauncheAPI.swift in Sources */,
 				C679923C2C2EF56A006B1E2D /* ThemeManager.swift in Sources */,
+				C67992992C2F05D5006B1E2D /* Margins.swift in Sources */,
 				C679923E2C2EF59A006B1E2D /* extension+UIColor.swift in Sources */,
 				C65133DD2C2EF2C900DE3732 /* NetworkAPI.swift in Sources */,
 				C67992502C2EF750006B1E2D /* extension+CustomLocalizedError.swift in Sources */,
