@@ -14,7 +14,7 @@ import Foundation
 class DependencyFactory: DependencyFactoryProtocol {
     
     /// Lazy initialization of `LauncheAPI` conforming to `LauncheAPIProtocol`.
-    private lazy var launcheAPI: LauncheAPIProtocol = LauncheAPI()
+    private lazy var launchAPI: LaunchAPIProtocol = LaunchAPI()
     
     /// Creates and returns the initial project coordinator.
     ///
@@ -61,7 +61,7 @@ extension DependencyFactory {
     /// - Parameter coordinator: The coordinator that manages the project navigation.
     /// - Returns: A `HomeViewController` instance configured with the given coordinator and `launcheAPI`.
     func buildHome(_ coordinator: ProjectCoordinatorProtocol) -> HomeViewController {
-        let config = HomeModule.Configuration(launcheAPI: launcheAPI)
+        let config = HomeModule.Configuration(launchAPI: launchAPI)
         let vc = HomeModule.build(configuration: config, coordinator: coordinator)
         return vc
     }
@@ -75,7 +75,7 @@ extension DependencyFactory {
     /// - Parameter coordinator: The coordinator that manages the project navigation.
     /// - Returns: A `DetailsViewController` instance configured with the given coordinator and `launcheAPI`.
     func buildDetails(_ coordinator: ProjectCoordinatorProtocol) -> DetailsViewController {
-        let config = DetailsModule.Configuration(launcheAPI: launcheAPI)
+        let config = DetailsModule.Configuration(launchAPI: launchAPI)
         let vc = DetailsModule.build(configuration: config, coordinator: coordinator)
         return vc
     }
@@ -89,7 +89,7 @@ extension DependencyFactory {
     /// - Parameter coordinator: The coordinator that manages the project navigation.
     /// - Returns: A `FavoriteViewController` instance configured with the given coordinator and `launcheAPI`.
     func buildFavorite(_ coordinator: ProjectCoordinatorProtocol) -> FavoriteViewController {
-        let config = FavoriteModule.Configuration(launcheAPI: launcheAPI)
+        let config = FavoriteModule.Configuration(launchAPI: launchAPI)
         let vc = FavoriteModule.build(configuration: config, coordinator: coordinator)
         return vc
     }

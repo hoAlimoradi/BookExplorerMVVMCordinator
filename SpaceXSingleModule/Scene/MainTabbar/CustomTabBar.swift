@@ -63,8 +63,7 @@ class CustomTabBar: UITabBar {
             ])
         }
     
-    private func prepareTabBar() {
-        let appearance = UITabBarItem.appearance() 
+    private func prepareTabBar() { 
         backgroundColor = ThemeManager.shared.getCurrentThemeColors().white2
     }
  
@@ -75,7 +74,7 @@ class CustomTabBar: UITabBar {
         guard index < buttons.count else {
             return
         }
-        let selectedButton = buttons[index]
+         
     }
 
     private func getCircularView(for index: Int) -> UIView {

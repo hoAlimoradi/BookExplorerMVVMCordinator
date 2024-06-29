@@ -13,6 +13,11 @@ final class CustomTabBarController: UITabBarController  {
     
     private enum Constans {
         static var smallerSolidWhiteCircle = "\u{2022}"
+        static var selectedIconHome = "ic_community_selected"
+        static var unselectedIconHome = "ic_community_unselected"
+        static var selectedIconFavoriteTabBar = "ic_notification_selected_tab_bar"
+        static var unselectedIconFavoriteTabBar = "ic_notification_selected_tab_bar_unselected"
+        static var curvedTabBarKey = "tabBar"
     }
 
     private let coordinator: ProjectCoordinatorProtocol
@@ -25,20 +30,19 @@ final class CustomTabBarController: UITabBarController  {
 
     // MARK: --- homeTabBarItem
     // Set custom images for the selected and unselected states
-    private lazy var selectedIconHome = UIImage(named: "ic_community_selected")?.withRenderingMode(.alwaysOriginal)
+    private lazy var selectedIconHome = UIImage(named: Constans.selectedIconHome)?.withRenderingMode(.alwaysOriginal)
     
-    private lazy var unselectedIconHome = UIImage(named: "ic_community_unselected")?.withRenderingMode(.alwaysOriginal)
+    private lazy var unselectedIconHome = UIImage(named: Constans.unselectedIconHome)?.withRenderingMode(.alwaysOriginal)
     
     // Set the tab bar item with custom icons for selected and unselected states
     private lazy var tabBarItemHome = UITabBarItem(title: AppStrings.MainTab.home.localized,
                                                   image: unselectedIconHome,
                                                   selectedImage: selectedIconHome)
-    
-    
+ 
     //MARK: favoriteTabBarItem
     // Set custom images for the selected and unselected states
-    private lazy var selectedIconFavoriteTabBar = UIImage(named: "ic_notification_selected_tab_bar")?.withRenderingMode(.alwaysOriginal)
-    private lazy var unselectedIconFavoriteTabBar = UIImage(named: "ic_notification_selected_tab_bar_unselected")?.withRenderingMode(.alwaysOriginal)
+    private lazy var selectedIconFavoriteTabBar = UIImage(named: Constans.selectedIconFavoriteTabBar)?.withRenderingMode(.alwaysOriginal)
+    private lazy var unselectedIconFavoriteTabBar = UIImage(named: Constans.unselectedIconFavoriteTabBar)?.withRenderingMode(.alwaysOriginal)
     
     // Set the tab bar item with custom icons for selected and unselected states
     private lazy var favoriteTabBarItem = UITabBarItem(title: AppStrings.MainTab.favorite.localized,
@@ -61,7 +65,7 @@ final class CustomTabBarController: UITabBarController  {
     }
  
     private func setupViewControllers() {
-        setValue(CurvedTabBar(frame: tabBar.frame), forKey: "tabBar")
+        setValue(CurvedTabBar(frame: tabBar.frame), forKey: Constans.curvedTabBarKey)
   
         // MARK: --- Home
         let HomeVC = CustomNavigationController(rootViewController: homeViewController)
@@ -200,14 +204,3 @@ class CurvedTabBar: CustomTabBar {
                      shadowOpacity: 0.0, shadowRadius: 0, boundsInset: UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0))
     }
 }
-
-//    override func draw(_ rect: CGRect) {
-//        super.draw(rect)
-//    }
-/*
- override func draw(_ rect: CGRect) {
- super.draw(rect)
- roundCorners(corners: [.topLeft, .topRight], radius: 20, bgColor: .white, cornerCurve: .circular, shadowColor: .black, shadowOffset: CGSize(width: 0, height: -2), shadowOpacity: 0.1, shadowRadius: 4, boundsInset: UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0))
- }
- */
-

@@ -8,7 +8,7 @@ import Foundation
 
 enum FavoriteModule {
     struct Configuration {
-        let launcheAPI: LauncheAPIProtocol
+        let launchAPI: LaunchAPIProtocol
     }
 
     // MARK: - Alias

@@ -40,3 +40,17 @@ public extension Date {
         return formattedString
     }
 }
+
+
+
+extension Date {
+    /// Converts a `Date` to a string in the "dd MMM" format.
+    ///
+    /// - Returns: A string representing the date in the format "dd MMM", e.g., "17 Apr".
+    func toDayMonthString(forTimeZone timeZone: TimeZone? = nil) -> String {
+        let formatter = DateFormatter()
+        formatter.timeZone = timeZone ?? TimeZone.current
+        formatter.dateFormat = "dd MMM"
+        return formatter.string(from: self)
+    }
+}
