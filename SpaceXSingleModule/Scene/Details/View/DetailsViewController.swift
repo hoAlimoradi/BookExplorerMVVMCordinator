@@ -93,10 +93,10 @@ final class DetailsViewController: BaseViewController {
    
    
    fileprivate func navigateToMainTab() {
-       DispatchQueue.main.asyncAfter(deadline: .now() + Constants.delay) {[weak self] in
-           guard let self = self else {return}
-           //self.viewModel.action(.navigateToMainTab)
-       }
+//       DispatchQueue.main.asyncAfter(deadline: .now() + Constants.delay) {[weak self] in
+//           //guard let self = self else {return}
+//           //self.viewModel.action(.navigateToMainTab)
+//       }
    }
     
    private func bind() {

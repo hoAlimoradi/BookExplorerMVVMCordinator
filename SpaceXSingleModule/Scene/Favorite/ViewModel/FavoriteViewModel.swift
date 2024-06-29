@@ -14,10 +14,10 @@ final class FavoriteViewModel: FavoriteViewModelProtocol {
 
     // MARK: - Properties
     var route = CurrentValueSubject<FavoriteRouteAction, Never>(.idleRoute)
-    private let launcheAPI: LauncheAPIProtocol
+    private let launchAPI: LaunchAPIProtocol
     // MARK: - Initialize
     init(configuration: FavoriteModule.Configuration) {
-        launcheAPI = configuration.launcheAPI
+        launchAPI = configuration.launchAPI
     }
 
     func action(_ handler: FavoriteViewModelAction) {

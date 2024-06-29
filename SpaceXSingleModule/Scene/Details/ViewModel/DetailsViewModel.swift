@@ -15,10 +15,10 @@ final class DetailsViewModel: DetailsViewModelProtocol {
 
     // MARK: - Properties
     var route = CurrentValueSubject<DetailsRouteAction, Never>(.idleRoute)
-    private let launcheAPI: LauncheAPIProtocol
+    private let launchAPI: LaunchAPIProtocol
     // MARK: - Initialize
     init(configuration: DetailsModule.Configuration) {
-        launcheAPI = configuration.launcheAPI
+        launchAPI = configuration.launchAPI
     }
 
     func action(_ handler: DetailsViewModelAction) {

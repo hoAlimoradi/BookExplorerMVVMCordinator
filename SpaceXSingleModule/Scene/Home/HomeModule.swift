@@ -8,7 +8,7 @@ import Foundation
 
 enum HomeModule {
     struct Configuration {
-        let launcheAPI: LauncheAPIProtocol
+        let launchAPI: LaunchAPIProtocol
     }
 
     // MARK: - Alias
