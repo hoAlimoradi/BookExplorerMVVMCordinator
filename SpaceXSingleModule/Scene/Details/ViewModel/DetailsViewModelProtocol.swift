@@ -32,11 +32,11 @@ enum DetailsFetchState: Equatable {
 
 enum DetailsRouteAction {
     case idleRoute
-    case navigateToMainTab
+    case popUp
 }
  
 enum DetailsViewModelAction {
-    case navigateToMainTab
+    case popUp
 }
 
 

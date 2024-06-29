@@ -22,7 +22,7 @@ final class HomeRouter: HomeRouting {
     
     // MARK: - Navigation Methods
     func navigateToDetials() {
-        coordinator?.navigateToSignupUserInfo()
+        coordinator?.navigateToDetails(by: "id")
     }
 }
 

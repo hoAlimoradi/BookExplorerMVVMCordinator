@@ -23,13 +23,13 @@ final class DetailsViewModel: DetailsViewModelProtocol {
 
     func action(_ handler: DetailsViewModelAction) {
         switch handler {
-        case .navigateToMainTab:
+        case .popUp:
             navigateToMainTab()
         }
     }
     
     //MARK:  navigateToMainTab
     private func navigateToMainTab() {
-        route.send(.navigateToMainTab)
+        route.send(.popUp)
     }
 }

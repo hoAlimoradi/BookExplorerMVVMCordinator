@@ -7,7 +7,7 @@
 import UIKit
 
 protocol DetailsRouting: CoordinatorRouter {
-    func navigateToDetials()
+    func popUp()
 }
 
 final class DetailsRouter: DetailsRouting {
@@ -21,7 +21,7 @@ final class DetailsRouter: DetailsRouting {
     }
     
     // MARK: - Navigation Methods
-    func navigateToDetials() {
-        coordinator?.navigateToSignupUserInfo()
+    func popUp() {
+        coordinator?.popUp()
     }
 }

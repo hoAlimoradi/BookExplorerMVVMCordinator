@@ -19,11 +19,11 @@ final class FavoriteViewController: BaseViewController {
         static var logoWidth = CGFloat(144)
         static var logoHeight = CGFloat(44)
     }
-    
+     
     private let router: FavoriteRouting
     private var cancellables = Set<AnyCancellable>()
     private let viewModel: FavoriteViewModel
-    
+    public var notificationCountPublisher = PassthroughSubject<Int?, Never>()
     private lazy var titleLabel : UILabel = {
         let label = UILabel()
         label.isUserInteractionEnabled = false

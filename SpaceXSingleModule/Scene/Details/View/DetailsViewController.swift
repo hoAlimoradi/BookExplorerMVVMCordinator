@@ -95,7 +95,7 @@ final class DetailsViewController: BaseViewController {
    fileprivate func navigateToMainTab() {
        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.delay) {[weak self] in
            guard let self = self else {return}
-           self.viewModel.action(.navigateToMainTab)
+           //self.viewModel.action(.navigateToMainTab)
        }
    }
     
@@ -105,8 +105,8 @@ final class DetailsViewController: BaseViewController {
            .sink { [weak self] routeAction in
                guard let self else { return }
                switch routeAction {
-               case .navigateToMainTab:
-                   self.router.navigateToDetials()
+               case .popUp:
+                   self.router.popUp()
                case .idleRoute:
                    break
                }
