@@ -54,15 +54,25 @@ class ProjectCoordinator: AbstractCoordinator,
         let splashViewController = factory.buildSplash(self)
         return splashViewController
     }
+    // Since the splashViewController is already created and set as root, we don't create it again.
+    // Additional setup if needed.
+//        if let window = UIApplication.shared.windows.first {
+//            window.switchRootViewController(viewController)
+//        }
     
     /// Start the coordinator, initializing dependencies
     func start(_ viewController: UIViewController) {
         logViewControllerClassName()
         self.viewController = viewController
-        // Since the splashViewController is already created and set as root, we don't create it again.
-        // Additional setup if needed.
+        logViewControllerClassName() // Log again after setting viewController
     }
-    
+    func navigateToSplash() {
+        logViewControllerClassName()
+        let vc = factory.buildSplash(self)
+        if let window = UIApplication.shared.windows.first {
+            window.switchRootViewController(vc)
+        }
+    }
     func updateCoordinatorRoot(_ viewController: UIViewController) {
         self.viewController = viewController
     }

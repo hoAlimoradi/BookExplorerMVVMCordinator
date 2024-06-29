@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		C65133982C2EEE7A00DE3732 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65133972C2EEE7A00DE3732 /* AppDelegate.swift */; };
 		C651339A2C2EEE7A00DE3732 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65133992C2EEE7A00DE3732 /* SceneDelegate.swift */; };
-		C651339C2C2EEE7A00DE3732 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C651339B2C2EEE7A00DE3732 /* ViewController.swift */; };
-		C651339F2C2EEE7A00DE3732 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = C651339E2C2EEE7A00DE3732 /* Base */; };
 		C65133A12C2EEE7B00DE3732 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C65133A02C2EEE7B00DE3732 /* Assets.xcassets */; };
 		C65133A42C2EEE7B00DE3732 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = C65133A32C2EEE7B00DE3732 /* Base */; };
 		C65133AF2C2EEE7B00DE3732 /* SpaceXSingleModuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65133AE2C2EEE7B00DE3732 /* SpaceXSingleModuleTests.swift */; };
@@ -100,6 +98,7 @@
 		C6BC7D0C2C2F8CC0002D871A /* extension+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BC7D0B2C2F8CC0002D871A /* extension+UILabel.swift */; };
 		C6BC7D0E2C2F9043002D871A /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BC7D0D2C2F9043002D871A /* CustomNavigationController.swift */; };
 		C6BC7D102C2F91CF002D871A /* extension+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BC7D0F2C2F91CF002D871A /* extension+UIView.swift */; };
+		C6C8E2502C3011F700A4D7A2 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C6C8E24F2C3011F700A4D7A2 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,8 +122,6 @@
 		C65133942C2EEE7A00DE3732 /* SpaceXSingleModule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceXSingleModule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C65133972C2EEE7A00DE3732 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C65133992C2EEE7A00DE3732 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C651339B2C2EEE7A00DE3732 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		C651339E2C2EEE7A00DE3732 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C65133A02C2EEE7B00DE3732 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C65133A32C2EEE7B00DE3732 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C65133A52C2EEE7B00DE3732 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -215,6 +212,7 @@
 		C6BC7D0B2C2F8CC0002D871A /* extension+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+UILabel.swift"; sourceTree = "<group>"; };
 		C6BC7D0D2C2F9043002D871A /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		C6BC7D0F2C2F91CF002D871A /* extension+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension+UIView.swift"; sourceTree = "<group>"; };
+		C6C8E24F2C3011F700A4D7A2 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,8 +273,6 @@
 				C65133C72C2EF04400DE3732 /* Modules */,
 				C65133972C2EEE7A00DE3732 /* AppDelegate.swift */,
 				C65133992C2EEE7A00DE3732 /* SceneDelegate.swift */,
-				C651339B2C2EEE7A00DE3732 /* ViewController.swift */,
-				C651339D2C2EEE7A00DE3732 /* Main.storyboard */,
 				C65133A02C2EEE7B00DE3732 /* Assets.xcassets */,
 				C65133A22C2EEE7B00DE3732 /* LaunchScreen.storyboard */,
 				C65133A52C2EEE7B00DE3732 /* Info.plist */,
@@ -374,6 +370,7 @@
 		C67992362C2EF518006B1E2D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C6C8E24F2C3011F700A4D7A2 /* Localizable.xcstrings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -868,7 +865,7 @@
 			files = (
 				C65133A12C2EEE7B00DE3732 /* Assets.xcassets in Resources */,
 				C65133A42C2EEE7B00DE3732 /* Base in Resources */,
-				C651339F2C2EEE7A00DE3732 /* Base in Resources */,
+				C6C8E2502C3011F700A4D7A2 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -912,7 +909,6 @@
 				C6BC7CFE2C2F7D57002D871A /* TabBarControllerProtocol.swift in Sources */,
 				C65133CD2C2EF0CA00DE3732 /* LoggingAPI.swift in Sources */,
 				C67992522C2EF750006B1E2D /* extension+Date.swift in Sources */,
-				C651339C2C2EEE7A00DE3732 /* ViewController.swift in Sources */,
 				C679927C2C2EF799006B1E2D /* URLSessionProviderProtocol.swift in Sources */,
 				C67992542C2EF750006B1E2D /* extension+Error.swift in Sources */,
 				C6BC7CD62C2F706F002D871A /* HomeViewModel.swift in Sources */,
@@ -1014,14 +1010,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C651339D2C2EEE7A00DE3732 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C651339E2C2EEE7A00DE3732 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		C65133A22C2EEE7B00DE3732 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1164,7 +1152,6 @@
 				INFOPLIST_FILE = SpaceXSingleModule/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1193,7 +1180,6 @@
 				INFOPLIST_FILE = SpaceXSingleModule/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

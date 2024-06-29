@@ -30,7 +30,7 @@ final class CustomTabBarController: UITabBarController  {
     private lazy var unselectedIconHome = UIImage(named: "ic_community_unselected")?.withRenderingMode(.alwaysOriginal)
     
     // Set the tab bar item with custom icons for selected and unselected states
-    private lazy var tabBarItemHome = UITabBarItem(title: AppStrings.Home.title.localized,
+    private lazy var tabBarItemHome = UITabBarItem(title: AppStrings.MainTab.home.localized,
                                                   image: unselectedIconHome,
                                                   selectedImage: selectedIconHome)
     
@@ -41,7 +41,7 @@ final class CustomTabBarController: UITabBarController  {
     private lazy var unselectedIconFavoriteTabBar = UIImage(named: "ic_notification_selected_tab_bar_unselected")?.withRenderingMode(.alwaysOriginal)
     
     // Set the tab bar item with custom icons for selected and unselected states
-    private lazy var favoriteTabBarItem = UITabBarItem(title: AppStrings.Favorite.title.localized,
+    private lazy var favoriteTabBarItem = UITabBarItem(title: AppStrings.MainTab.favorite.localized,
                                                        image: unselectedIconFavoriteTabBar,
                                                        selectedImage: selectedIconFavoriteTabBar)
     
