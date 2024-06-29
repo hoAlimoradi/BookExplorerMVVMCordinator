@@ -4,18 +4,21 @@
 //
 //  Created by ho on 4/8/1403 AP.
 // 
+  
+//
 import UIKit
+import Foundation
 import Combine
 
-final class SplashViewController: BaseViewController {
-    
+final class SplashViewController: BaseViewController  {
+
     // MARK: - Properties
     private enum Constants {
         static let delay = 0.5
         static var logo = "logo"
         
-        static var logoWidth = CGFloat(144)
-        static var logoHeight = CGFloat(44) 
+        static var logoWidth = CGFloat(240)
+        static var logoHeight = CGFloat(120)
     }
     
     private let router: SplashRouting
@@ -27,12 +30,12 @@ final class SplashViewController: BaseViewController {
         label.isUserInteractionEnabled = false
         label.textAlignment = .center
         label.text = AppStrings.Splash.title.localized
-        label.font = Fonts.B3.medium
-        label.textColor = ThemeManager.shared.getCurrentThemeColors().grey1
+        label.font = Fonts.H2.medium
+        label.textColor = ThemeManager.shared.getCurrentThemeColors().primary1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var logoIcon: UIImageView = {
         var imageView = UIImageView(image: UIImage(named: Constants.logo) ?? UIImage())
         imageView.isUserInteractionEnabled = false
@@ -46,9 +49,9 @@ final class SplashViewController: BaseViewController {
         let label = UILabel()
         label.isUserInteractionEnabled = false
         label.textAlignment = .center
-        label.text = AppStrings.Splash.title.localized
-        label.font = Fonts.B1.medium
-        label.textColor = ThemeManager.shared.getCurrentThemeColors().grey1
+        label.text = AppStrings.Splash.vertion.localized
+        label.font = Fonts.B3.medium
+        label.textColor = ThemeManager.shared.getCurrentThemeColors().primary2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -64,19 +67,18 @@ final class SplashViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
+
     internal override func configureSubViews() {
         view.backgroundColor = ThemeManager.shared.getCurrentThemeColors().white1
-        
         view.addSubview(logoIcon)
         view.addSubview(titleLabel)
         view.addSubview(vertionLabel)
     }
-    
+   
     internal override func configureConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: TopMargin.spacingSm),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: TopMargin.spacingMed),
             
             logoIcon.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             logoIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -89,16 +91,14 @@ final class SplashViewController: BaseViewController {
         navigateToMainTab()
         bind()
     }
-    
-    
+
     fileprivate func navigateToMainTab() {
         DispatchQueue.main.asyncAfter(deadline: .now() + Constants.delay) {[weak self] in
             guard let self = self else {return}
             self.viewModel.action(.navigateToMainTab)
         }
     }
-     
-    private func bind() {
+     private func bind() {
         viewModel.route
             .receive(on: DispatchQueue.main)
             .sink { [weak self] routeAction in
@@ -112,3 +112,4 @@ final class SplashViewController: BaseViewController {
             }.store(in: &cancellables)
     }
 }
+ 

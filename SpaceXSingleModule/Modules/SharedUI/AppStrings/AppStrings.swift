@@ -16,13 +16,19 @@ public enum AppStrings {
             return NSLocalizedString(self.rawValue, comment: "")
         }
     }
-    
+    //MARK: Splash String
+    public enum MainTab: String {
+        case home = "main_tab_home_title"
+        case favorite = "main_tab_favorite_title"
+        
+        var localized: String {
+            return NSLocalizedString(self.rawValue, comment: "")
+        }
+    }
     //MARK: Splash String
     public enum Splash: String {
         case title = "splash_title"
-        case retry = "splash_retry"
-        case invalidResponseError = "splash_invalid_response_error"
-        case invalidSelfError = "splash_invalid_self_error"
+        case vertion = "splash_vertion"
         
         var localized: String {
             return NSLocalizedString(self.rawValue, comment: "")

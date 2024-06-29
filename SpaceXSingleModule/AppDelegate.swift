@@ -4,33 +4,110 @@
 //
 //  Created by ho on 4/8/1403 AP.
 //
+ 
 
 import UIKit
+import Combine
+import Sentry
 
-@main
+@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
+    
+    private var cancellables = Set<AnyCancellable>()
+    var mainWindow: UIWindow?
+    var coordinator: ProjectCoordinatorProtocol?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        mainWindow = UIWindow()
+        let factory = DependencyFactory()
+        coordinator = ProjectCoordinator(factory: factory)
+        guard let mainWindow = mainWindow,
+              let coordinator = coordinator else {
+            return true
+        }
+        
+        //MARK: setup splashViewController
+        let splashViewController = factory.buildSplash(coordinator)
+        mainWindow.rootViewController = splashViewController
+        mainWindow.makeKeyAndVisible()
+        mainWindow.backgroundColor =  ThemeManager.shared.getCurrentThemeColors().white1
+        
+        // Start the coordinator with the splash screen
+        coordinator.start(splashViewController)
+        
+        //MARK: setup Logger
+        exceptionLogger()
+        //configSentry() 
         return true
     }
-
-    // MARK: UISceneSession Lifecycle
-
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    
+    fileprivate func configSentry() {
+        SentrySDK.start { options in
+            //options.dsn = Environment.current.sentryDsn
+            options.debug = false
+            options.tracesSampleRate = 1.0
+        }
     }
-
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+     
+    func applicationWillResignActive(_ application: UIApplication) {
+        LoggingAPI.shared.log("application Will Resign Active: ", level: .info)
     }
-
-
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // Called when the application has returned to the foreground (after leaving the background).
+        LoggingAPI.shared.log("application Did Become Active: ", level: .info)
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        // Called when the application is about to terminate.
+        // Save data if appropriate. See also applicationDidEnterBackground:.
+        LoggingAPI.shared.log("application Will Terminate: ", level: .info)
+    }
+   
+    
+    fileprivate func exceptionLogger() {
+        NSSetUncaughtExceptionHandler { exception in
+            print("---------------------------------------------------------------")
+            LoggingAPI.shared.log("NSSetUncaughtExceptionHandler: \(exception.description)", level: .error)
+            print("================================================================")
+        }
+        
+        signal(SIGABRT) { signal in
+            print("---------------------------------------------------------------")
+            LoggingAPI.shared.log("signal - SIGABRT: \(signal.description)", level: .error)
+            print("================================================================")
+        }
+        
+        signal(SIGILL) { signal in
+            print("---------------------------------------------------------------")
+            LoggingAPI.shared.log("signal SIGILL : \(signal.description)", level: .error)
+            print("================================================================")
+        }
+        
+        signal(SIGSEGV) { signal in
+            print("---------------------------------------------------------------")
+            LoggingAPI.shared.log("signal SIGSEGV: \(signal.description)", level: .error)
+            print("================================================================")
+        }
+        
+        signal(SIGFPE) { signal in
+            print("---------------------------------------------------------------")
+            LoggingAPI.shared.log("signal SIGFPE: \(signal.description)", level: .error)
+            print("================================================================")
+        }
+        
+        signal(SIGBUS) { signal in
+            print("---------------------------------------------------------------")
+            LoggingAPI.shared.log("signal SIGBUS: \(signal.description)", level: .error)
+            print("================================================================")
+        }
+        
+        signal(SIGPIPE) { signal in
+            print("---------------------------------------------------------------")
+            LoggingAPI.shared.log("signal SIGPIPE: \(signal.description)", level: .error)
+            print("================================================================")
+        }
+    }
 }
+
 

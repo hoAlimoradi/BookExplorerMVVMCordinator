@@ -37,7 +37,7 @@ class BaseViewController: UIViewController  {
  
         configureSubViews()
         configureConstraints()
-        registerForKeyboardNotifications()
+        registerForKeyboardNotifications() 
     }
     
     //MARK: registerForKeyboardNotifications

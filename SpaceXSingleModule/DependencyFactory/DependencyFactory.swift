@@ -34,7 +34,8 @@ extension DependencyFactory {
     /// - Returns: A `SplashViewController` instance configured with the given coordinator.
     func buildSplash(_ coordinator: ProjectCoordinatorProtocol) -> SplashViewController {
         let config = SplashModule.Configuration()
-        let splashViewController = SplashModule.build(configuration: config, coordinator: coordinator)
+        let splashViewController = SplashModule.build(configuration: config,
+                                                      coordinator: coordinator)
         return splashViewController
     }
 }
