@@ -49,11 +49,11 @@ class ProjectCoordinator: AbstractCoordinator,
         childCoordinators.removeAll()
     }
     
-    func makeSplashViewController() -> SplashViewController {
-        logViewControllerClassName()
-        let splashViewController = factory.buildSplash(self)
-        return splashViewController
-    }
+//    func makeSplashViewController() -> SplashViewController {
+//        logViewControllerClassName()
+//        let splashViewController = factory.buildSplash(self)
+//        return splashViewController
+//    }
     // Since the splashViewController is already created and set as root, we don't create it again.
     // Additional setup if needed.
 //        if let window = UIApplication.shared.windows.first {
@@ -66,13 +66,13 @@ class ProjectCoordinator: AbstractCoordinator,
         self.viewController = viewController
         logViewControllerClassName() // Log again after setting viewController
     }
-    func navigateToSplash() {
-        logViewControllerClassName()
-        let vc = factory.buildSplash(self)
-        if let window = UIApplication.shared.windows.first {
-            window.switchRootViewController(vc)
-        }
-    }
+//    func navigateToSplash() {
+//        logViewControllerClassName()
+//        let vc = factory.buildSplash(self)
+//        if let window = UIApplication.shared.windows.first {
+//            window.switchRootViewController(vc)
+//        }
+//    }
     func updateCoordinatorRoot(_ viewController: UIViewController) {
         self.viewController = viewController
     }
@@ -91,11 +91,13 @@ class ProjectCoordinator: AbstractCoordinator,
             window.switchRootViewController(vc)
         }
     }
-    func navigateToDetails(by id: String) {
+    func navigateToDetails(by launchItemModel: LaunchItemModel,
+                             isFavorite: Bool) {
         logViewControllerClassName()
-        let vc = factory.buildDetails(self) 
-        viewController?.navigationController?.pushViewControllerOnce(vc, animated: true) 
-    }
-    
+        let vc = factory.buildDetails(coordinator: self,
+                                      launchItemModel: launchItemModel,
+                                      isFavorite: isFavorite)
+        viewController?.navigationController?.pushViewControllerOnce(vc, animated: true)
+    } 
 }
 

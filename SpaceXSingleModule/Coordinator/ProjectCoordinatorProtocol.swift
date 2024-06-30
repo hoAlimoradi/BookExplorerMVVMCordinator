@@ -23,11 +23,7 @@ protocol ProjectCoordinatorProtocol {
     
     /// A subject that triggers navigation based on the provided link type.
     var linkTypeSubject: PassthroughSubject<String?, Never> { get set }
-    
-    /// Creates and returns the splash view controller.
-    ///
-    /// - Returns: An instance of `SplashViewController`.
-    func makeSplashViewController() -> SplashViewController
+ 
     
     /// Starts the coordinator with the provided root view controller.
     ///
@@ -49,7 +45,7 @@ protocol ProjectCoordinatorProtocol {
     // MARK: - Details    
     /// Navigates to the details view controller for the specified ID.
     ///
-    /// - Parameter id: The ID of the item to display in the details view controller.
-    func navigateToDetails(by id: String)
+    /// - Parameter launchItemModel: The the item to display in the details view controller.
+    func navigateToDetails(by launchItemModel: LaunchItemModel, isFavorite: Bool)
 }
 

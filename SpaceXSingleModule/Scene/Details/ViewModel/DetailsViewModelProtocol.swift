@@ -36,9 +36,11 @@ enum DetailsRouteAction {
 }
  
 enum DetailsViewModelAction {
-    case popUp
+    case toggleButton
+    case checkIsFavorite
 }
 
-
-
-
+enum FavoriteStatusEnum {
+    case favorite
+    case notFavorite
+}

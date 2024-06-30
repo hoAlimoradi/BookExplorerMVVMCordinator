@@ -6,16 +6,8 @@
 //
 
 import Foundation
-public let PaginationModelPageSize = 30
-public struct PaginationModel1 {
-    public var page: Int
-    public var size: Int
-
-    public init(page: Int, size: Int = PaginationModelPageSize) {
-        self.page = page
-        self.size = size
-    }
-}
+public let PaginationModelPageSize = 50
+ 
 public struct PaginationModel {
     public var page: Int {
         didSet {

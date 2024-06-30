@@ -40,6 +40,9 @@ protocol DependencyFactoryProtocol {
     /// Builds the details view controller with the provided coordinator.
     ///
     /// - Parameter coordinator: The coordinator that manages the project navigation.
-    /// - Returns: A `DetailsViewController` instance configured with the given coordinator.
-    func buildDetails(_ coordinator: ProjectCoordinatorProtocol) -> DetailsViewController
+    /// - Parameter launchItemModel: The launchItemModel  .
+    /// - Returns: A `DetailsViewController` instance configured with the given coordinator. 
+    func buildDetails(coordinator: ProjectCoordinatorProtocol,
+                        launchItemModel: LaunchItemModel,
+                        isFavorite: Bool) -> DetailsViewController
 }

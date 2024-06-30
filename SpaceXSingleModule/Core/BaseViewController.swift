@@ -69,3 +69,4 @@ class BaseViewController: UIViewController  {
     }
     
 }
+public typealias TableViewDelegateDataSource = UITableViewDelegate & UITableViewDataSource

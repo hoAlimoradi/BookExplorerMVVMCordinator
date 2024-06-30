@@ -105,6 +105,7 @@ final class CustomTabBarController: UITabBarController  {
         observeFavoritePublisher()
         
         observeFavoritePublisher()
+        updateTabbarIndex(index: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {

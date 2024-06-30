@@ -9,8 +9,8 @@ import Foundation
 
 //MARK: Response Models
 public struct LaunchResponseModel: Codable {
-    public let id: String?
-    public let name: String?
+    public let id: String
+    public let name: String
     public let dateUTC: String?
     public let dateUnix: Int?
     public let dateLocal: String?
@@ -20,7 +20,7 @@ public struct LaunchResponseModel: Codable {
     public let tbd: Bool?
     public let net: Bool?
     public let window: Int?
-    public let rocket: String?
+    public let rocket: String
     public let success: Bool?
     public let failures: [FailureResponseModel]?
     public let details: String?
@@ -195,6 +195,6 @@ public extension Array where Element == LaunchResponseModel {
 //  }
 //}
 
-typealias LaunchListResponseModel = [LaunchResponseModel] //BaseApiResponseModel<[LaunchResponseModel]>
+typealias LaunchListResponseModel = BaseApiResponseModel<[LaunchResponseModel]>
  
  
