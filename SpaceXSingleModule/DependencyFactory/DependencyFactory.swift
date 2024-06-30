@@ -74,8 +74,12 @@ extension DependencyFactory {
     ///
     /// - Parameter coordinator: The coordinator that manages the project navigation.
     /// - Returns: A `DetailsViewController` instance configured with the given coordinator and `launcheAPI`.
-    func buildDetails(_ coordinator: ProjectCoordinatorProtocol) -> DetailsViewController {
-        let config = DetailsModule.Configuration(launchAPI: launchAPI)
+    func buildDetails(coordinator: ProjectCoordinatorProtocol,
+                        launchItemModel: LaunchItemModel,
+                        isFavorite: Bool) -> DetailsViewController {
+        let config = DetailsModule.Configuration(launchAPI: launchAPI,
+                                                 launchItemModel: launchItemModel,
+                                                 isFavorite: isFavorite)
         let vc = DetailsModule.build(configuration: config, coordinator: coordinator)
         return vc
     }

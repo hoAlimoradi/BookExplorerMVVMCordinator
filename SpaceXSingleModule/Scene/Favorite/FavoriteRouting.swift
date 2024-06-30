@@ -23,6 +23,6 @@ final class FavoriteRouter: FavoriteRouting {
     
     // MARK: - Navigation Methods
     func navigateToDetials() {
-        coordinator?.navigateToDetails(by: "id")
+        //coordinator?.navigateToDetails(by: "id")
     }
 }

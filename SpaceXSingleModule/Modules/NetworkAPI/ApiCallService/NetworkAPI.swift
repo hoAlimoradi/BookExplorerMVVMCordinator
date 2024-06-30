@@ -46,7 +46,7 @@ public class NetworkAPI: NetworkAPIProtocol {
         
         /// Returns the full URL for fetching launch items.
         static var getLaunchItems: String {
-            return basePath + "launches"
+            return basePath + "launches/query"
         }
     }
     
@@ -69,18 +69,19 @@ public class NetworkAPI: NetworkAPIProtocol {
     /// - Returns: An array of `LaunchItemModel` objects containing the launch items.
     /// - Throws: An error if there was a problem retrieving the launch items.
     public func getLaunchItems(by paginationModel: PaginationModel) async throws ->  PaginationResult<LaunchItemModel> {
-        ///"?limit=\(defaultLimit)&offset=\(offset)")
-        let queryItemsParameters = ["limit": paginationModel.size,
-                                    "offset": paginationModel.offset] as [String : Any]
         
-        let result: LaunchListResponseModel = try await httpClient.get(
-            headerFields: getGeneralHeader(),
-            endpoint: API.getLaunchItems,
-            queryItemsParameters: queryItemsParameters,
-            authenticationIsRequired: false,
-            checkHTTPStatusCode: true
+        let launchQuery = LaunchQueryRequestModel(
+            query: LaunchQueryRequestModel.Query(),
+            options: LaunchQueryRequestModel.Options(limit: paginationModel.size,
+                                                          page: paginationModel.page)
         )
-        
+        let requstBody = try JSONEncoder().encode(launchQuery)
+        let result: LaunchListResponseModel = try await httpClient.post(headerFields: getGeneralHeader(),
+                                                                                              requstBody: requstBody,
+                                                                                              queryItemsParameters: nil,
+                                                                                              endpoint: API.getLaunchItems,
+                                                                                              authenticationIsRequired: false,
+                                                                                              checkHTTPStatusCode: true)
         let launchItems = try await parseLaunchItemResponseModel(result)
         return launchItems
     }
@@ -94,16 +95,17 @@ public class NetworkAPI: NetworkAPIProtocol {
     /// - Parameter launchData: The `LaunchListResponseModel` object containing the response from the API.
     /// - Returns: An array of `LaunchItemModel` objects containing the parsed launch items.
     /// - Throws: An error if there was a problem parsing the response or if the response contains an error message.
-    private func parseLaunchItemResponseModel(_ launchData: LaunchListResponseModel) async throws -> PaginationResult<LaunchItemModel> {
+    private func parseLaunchItemResponseModel(_ decodedData: LaunchListResponseModel) async throws -> PaginationResult<LaunchItemModel> {
+        guard let launchData = decodedData.docs else {
+            throw NetworkAPIError.emptyList
+        }
         if launchData.isEmpty  {
             throw NetworkAPIError.emptyList
         }
-        //let items = launchData.compactMap { $0.toLaunchItemModel() }
-        // Convert to array of LaunchItemModel
         let items: [LaunchItemModel] = launchData.toLaunchItemModel()
         let paginationResult = PaginationResult(items: items,
-                                                  total: items.count)
+                                                  total: decodedData.totalDocs)
         return paginationResult
     } 
 }
-
+ 

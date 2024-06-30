@@ -17,7 +17,7 @@ final class HomeViewController: BaseViewController {
 
     private let router: HomeRouting
     private var cancellables = Set<AnyCancellable>()
-    private let viewModel: HomeViewModel
+    private let viewModel: HomeViewModelProtocol
     private var state: HomeFetchState = .idleLaunch {
         didSet {
             updateUI(for: state)
@@ -27,8 +27,7 @@ final class HomeViewController: BaseViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.isUserInteractionEnabled = false
-        label.textAlignment = .center
-        label.text = AppStrings.Home.title.localized
+        label.textAlignment = .center 
         label.font = Fonts.B3.medium
         label.textColor = ThemeManager.shared.getCurrentThemeColors().grey1
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +40,6 @@ final class HomeViewController: BaseViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
         collectionView.register(HomeLaunchCell.self, forCellWithReuseIdentifier: Constants.cellReuseIdentifier)
-        //collectionView
         return collectionView
     }()
 
@@ -102,7 +100,7 @@ final class HomeViewController: BaseViewController {
     }()
 
     init(configuration: HomeModule.Configuration,
-         viewModel: HomeViewModel,
+         viewModel: HomeViewModelProtocol,
          router: HomeRouting) {
         self.viewModel = viewModel
         self.router = router
@@ -125,7 +123,7 @@ final class HomeViewController: BaseViewController {
     internal override func configureConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: TopMargin.spacingSm),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: TopMargin.spacingSm),
 
             collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.spacing),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -148,7 +146,10 @@ final class HomeViewController: BaseViewController {
 
         bind()
     }
+}
 
+// MARK: - bind
+extension HomeViewController  {
     private func bind() {
         viewModel.action(.getLaunchs)
 
@@ -157,8 +158,8 @@ final class HomeViewController: BaseViewController {
             .sink { [weak self] routeAction in
                 guard let self = self else { return }
                 switch routeAction {
-                case .navigateToMainTab:
-                    self.router.navigateToDetials()
+                case .navigateToDetails(let launchItemModel):
+                    self.router.navigateToDetials(by: launchItemModel)
                 case .idleRoute:
                     break
                 }
@@ -177,11 +178,20 @@ final class HomeViewController: BaseViewController {
                 self?.updateUI(for: state)
             }.store(in: &cancellables)
     }
+}
 
+
+// MARK: - collectionView
+extension HomeViewController  {
     private func applySnapshot(with launches: [LaunchItemModel]) {
         var snapshot = NSDiffableDataSourceSnapshot<Int, LaunchItemModel>()
         snapshot.appendSections([0])
         snapshot.appendItems(launches)
+        if launches.isEmpty {
+            titleLabel.text?.removeAll()
+        } else {
+            titleLabel.text = "Total Count: \(launches.count)"
+        }
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 
@@ -202,7 +212,27 @@ final class HomeViewController: BaseViewController {
 
         return UICollectionViewCompositionalLayout(section: section)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let launchItem = dataSource.itemIdentifier(for: indexPath) else { return }
+        viewModel.action(.selectLaunch(launchItem))
+    }
+}
 
+// MARK: - UICollectionViewDelegate
+extension HomeViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+
+        if offsetY > contentHeight - scrollView.frame.height * 4 {
+            viewModel.action(.moreLoadLaunchs)
+        }
+    }
+}
+
+// MARK: - updateUI based on HomeFetchState
+extension HomeViewController  {
     private func updateUI(for state: HomeFetchState) {
         switch state {
         case .idleLaunch:
@@ -234,21 +264,5 @@ final class HomeViewController: BaseViewController {
             collectionView.isHidden = true
         }
     }
-}
-
-// MARK: - UICollectionViewDelegate
-extension HomeViewController: UICollectionViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        let contentHeight = scrollView.contentSize.height
-
-        if offsetY > contentHeight - scrollView.frame.height * 4 {
-            viewModel.action(.moreLoadLaunchs)
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let launchItem = dataSource.itemIdentifier(for: indexPath) else { return }
-        viewModel.action(.selectLaunch(launchItem))
-    }
+ 
 }

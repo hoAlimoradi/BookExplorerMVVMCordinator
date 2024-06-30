@@ -13,8 +13,10 @@ internal class HttpClientManager: HttpClientManagerProtocol {
     
     enum Constants {
         static var httpMethodGET = "GET"
+        static var httpMethodPOST = "POST"
         static var applicationJson = "application/json"
         static var accept = "accept"
+        static var contentType = "Content-Type"
         static var timeoutTimeInterval: TimeInterval = 60.0
     }
      
@@ -85,6 +87,47 @@ internal class HttpClientManager: HttpClientManagerProtocol {
         return result
     }
     
+    
+    
+    public func post<T>(headerFields: [HeaderFieldModel]?,
+                        requstBody: Data?,
+                        queryItemsParameters: [String : Any]?,
+                        endpoint: String,
+                        authenticationIsRequired: Bool,
+                        checkHTTPStatusCode: Bool) async throws -> T where T : Decodable, T : Encodable {
+        guard let urlComponent = URLComponents(string: endpoint), var link = urlComponent.url else {
+            throw HttpClientManagerAPIError.invalidURLComponents
+        }
+        if let queryItemsParameters = queryItemsParameters {
+            link.appendQueryItems(parameters: queryItemsParameters)
+        }
+        var request = URLRequest(url: link, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: Constants.timeoutTimeInterval)
+        request.httpMethod = Constants.httpMethodPOST
+        request.addValue(Constants.applicationJson, forHTTPHeaderField: Constants.contentType)
+        
+        if (headerFields != nil) {
+            for headerField in headerFields! {
+                request.addValue(headerField.value, forHTTPHeaderField: headerField.key)
+            }
+        }
+         
+        if(requstBody != nil) {
+            request.httpBody = requstBody
+        }
+        
+        if(!NetworkMonitor.shared.isReachable) {
+            throw HttpClientManagerAPIError.networkNotReachable
+        }
+        guard let session = provideSesseion(endpoint: endpoint) else {
+            throw HttpClientManagerAPIError.unableToProvideURLSession
+        }
+        
+        let result:T = try await apiCall(request: request,
+                                         urlSession: session,
+                                         checkHTTPStatusCode: checkHTTPStatusCode)
+        return result
+    } 
+
     // MARK: Fetch Generic Type
     /// Fetch generic type `<T>` from [`URL`](https://developer.apple.com/documentation/foundation/url)
     /// - Parameter url: The URL to fetch from.

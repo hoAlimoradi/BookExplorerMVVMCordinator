@@ -7,7 +7,7 @@
 import UIKit
 
 protocol HomeRouting: CoordinatorRouter {
-    func navigateToDetials()
+    func navigateToDetials(by launchItemModel: LaunchItemModel)
 }
 
 final class HomeRouter: HomeRouting {
@@ -21,8 +21,8 @@ final class HomeRouter: HomeRouting {
     }
     
     // MARK: - Navigation Methods
-    func navigateToDetials() {
-        coordinator?.navigateToDetails(by: "id")
+    func navigateToDetials(by launchItemModel: LaunchItemModel) {
+        coordinator?.navigateToDetails(by: launchItemModel, isFavorite: false)
     }
 }
 

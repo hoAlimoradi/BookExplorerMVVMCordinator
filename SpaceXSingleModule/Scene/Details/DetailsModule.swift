@@ -9,6 +9,8 @@ import Foundation
 enum DetailsModule {
     struct Configuration {
         let launchAPI: LaunchAPIProtocol
+        let launchItemModel: LaunchItemModel
+        let isFavorite: Bool
     }
 
     // MARK: - Alias

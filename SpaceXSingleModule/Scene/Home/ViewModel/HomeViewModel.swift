@@ -7,62 +7,82 @@
 import Combine
 import Foundation
 
+/// The `HomeViewModel` class is responsible for managing the state and interactions
+/// for the home screen. It fetches launch data from an API, manages pagination, and handles
+/// user actions related to the launch list.
 final class HomeViewModel: HomeViewModelProtocol {
-    
+
+    // Add any constants if needed in the future
     private enum Constants {
     }
     
     // MARK: - Properties
+    
+    /// Publishes the current route action for navigation.
     var route = CurrentValueSubject<HomeRouteAction, Never>(.idleRoute)
+    
+    /// Publishes the list of launch items.
     var launchListSubject = CurrentValueSubject<[LaunchItemModel], Never>([])
+    
+    /// Publishes the current fetch state of the home screen.
     var homeFetchState = CurrentValueSubject<HomeFetchState, Never>(.idleLaunch)
     
     private var launchListTotal: Int = 0
+    private var seenIds = Set<String>()
     private var launchModels = [LaunchItemModel]()
     private var launchListIsLoadingPage = false
     private var launchListPaginationModel: PaginationModel
     private let launchAPI: LaunchAPIProtocol
     private var cancellables = Set<AnyCancellable>()
     
-    // MARK: - Initialize
+    // MARK: - Initialization
+    
+    /// Initializes a new instance of `HomeViewModel`.
+    ///
+    /// - Parameter configuration: The configuration object containing the required dependencies.
     init(configuration: HomeModule.Configuration) {
-        launchAPI = configuration.launchAPI
-        launchListPaginationModel = PaginationModel(page: 1)
+        self.launchAPI = configuration.launchAPI
+        self.launchListPaginationModel = PaginationModel(page: 1)
     }
     
+    // MARK: - Methods
+    
+    /// Handles various actions related to the home screen.
+    ///
+    /// - Parameter handler: The action to be handled.
     func action(_ handler: HomeViewModelAction) {
         switch handler {
-        case .navigateToMainTab:
-            navigateToMainTab()
         case .getLaunchs:
             getLaunches()
         case .moreLoadLaunchs:
             loadMoreLaunches()
-            
         case .selectLaunch(let launch):
             selectLaunch(launch)
         }
     }
     
-    // MARK:  navigateToMainTab
-    private func navigateToMainTab() {
-        route.send(.navigateToMainTab)
+    // MARK: - Private Methods
+    
+    /// Resets properties related to fetching launches.
+    private func resetGetLaunchProperties() {
+        launchModels.removeAll()
+        seenIds.removeAll()
+        launchListPaginationModel.page = 1
+        launchListTotal = 0
     }
     
+    /// Fetches the list of launches from the API.
     private func getLaunches() {
-        launchModels.removeAll()
-        launchListPaginationModel.page = 1
+        resetGetLaunchProperties()
         launchListIsLoadingPage = true
         homeFetchState.send(.loadingLaunch)
         Task { [weak self] in
             guard let self = self else { return }
             do {
                 let result = try await self.launchAPI.getLaunchItems(by: launchListPaginationModel)
-                self.launchModels = result.items
-                self.launchListTotal = result.total ?? 0
+                self.launchListTotal = result.total
+                self.updateLaunchListSubject(by: result.items)
                 self.launchListIsLoadingPage = false
-                
-                self.launchListSubject.send(self.launchModels)
                 if self.launchModels.isEmpty {
                     self.homeFetchState.send(.emptyLaunch)
                 } else {
@@ -71,41 +91,68 @@ final class HomeViewModel: HomeViewModelProtocol {
             } catch {
                 self.launchListIsLoadingPage = false
                 self.launchListSubject.send([])
-                self.homeFetchState.send(.failedLaunch(error))
-                
+                switch error {
+                case NetworkAPIError.emptyList:
+                    self.homeFetchState.send(.emptyLaunch)
+                default:
+                    self.homeFetchState.send(.failedLaunch(error))
+                }
                 LoggingAPI.shared.log("getLaunches \(error.customLocalizedDescription)", level: .error)
             }
         }
     }
     
+    /// Loads more launches from the API for pagination.
     private func loadMoreLaunches() {
-        guard !launchListIsLoadingPage, launchModels.count < launchListTotal else { return }
+        guard !launchListIsLoadingPage else { return }
+        if launchListTotal <= launchModels.count { return }
         launchListPaginationModel.page += 1
         launchListIsLoadingPage = true
         homeFetchState.send(.loadMoreLaunch)
         Task { [weak self] in
             guard let self = self else { return }
             do {
-                let result = try await self.launchAPI.getLaunchItems(by: launchListPaginationModel)
+                let result = try await self.launchAPI.getLaunchItems(by: self.launchListPaginationModel)
+                self.launchListTotal = result.total
                 if !result.items.isEmpty {
-                    self.launchModels.append(contentsOf: result.items)
-                    self.launchListSubject.send(self.launchModels)
+                    self.updateLaunchListSubject(by: result.items)
                 }
                 self.launchListIsLoadingPage = false
                 self.homeFetchState.send(.idleLaunch)
             } catch {
+                self.launchListPaginationModel.page -= 1
                 self.launchListIsLoadingPage = false
-                self.homeFetchState.send(.failedLaunch(error))
+                self.homeFetchState.send(.idleLaunch)
                 LoggingAPI.shared.log("loadMoreLaunches \(error.customLocalizedDescription)", level: .error)
             }
         }
     }
     
-    //MARK: selectLaunch
-        private func selectLaunch(_ launch: LaunchItemModel) {
-            // Perform the action when a launch item is selected.
-            // For example, navigating to the details screen or taking a picture.
-            print("Selected launch: \(String(describing: launch.name))")
+    /// Ensures that launch items have unique identifiers before adding them to the list.
+    ///
+    /// - Parameter items: The list of launch items to be processed.
+    private func ensureUniqueIdentifiers(items: [LaunchItemModel]) {
+        for item in items {
+            if !seenIds.contains(item.id) {
+                launchModels.append(item)
+                seenIds.insert(item.id)
+            }
         }
+    }
+    
+    /// Updates the launch list subject with the provided items.
+    ///
+    /// - Parameter items: The list of launch items to be added.
+    private func updateLaunchListSubject(by items: [LaunchItemModel]) {
+        ensureUniqueIdentifiers(items: items)
+        launchListSubject.send(launchModels)
+    }
+    
+    /// Handles the selection of a launch item.
+    ///
+    /// - Parameter launch: The launch item that was selected.
+    private func selectLaunch(_ launch: LaunchItemModel) {
+        LoggingAPI.shared.log("Selected launch: \(String(describing: launch.name))", level: .info)
+        route.send(.navigateToDetails(launch))
+    }
 }
-

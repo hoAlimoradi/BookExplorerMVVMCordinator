@@ -5,11 +5,12 @@
 //  Created by ho on 4/8/1403 AP.
 //
 
-import Foundation
+import Foundation 
+
 // Item Models
-public struct LaunchItemModel: Hashable {
-    public let id: String?
-    public let name: String?
+public struct LaunchItemModel: Hashable, Identifiable {
+    public let id: String
+    public let name: String
     public let dateUTC: Date?
     public let dateUnix: Int?
     public let dateLocal: String?
@@ -19,7 +20,7 @@ public struct LaunchItemModel: Hashable {
     public let tbd: Bool?
     public let net: Bool?
     public let window: Int?
-    public let rocket: String?
+    public let rocket: String
     public let success: Bool?
     public let details: String?
     public let flightNumber: Int?

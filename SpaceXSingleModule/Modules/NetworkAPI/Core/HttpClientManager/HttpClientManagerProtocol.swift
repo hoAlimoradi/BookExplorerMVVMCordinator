@@ -29,5 +29,13 @@ internal protocol HttpClientManagerProtocol {
                          queryItemsParameters: [String: Any]?,
                          authenticationIsRequired: Bool,
                          checkHTTPStatusCode: Bool) async throws -> T
+    
+    
+    func post<T: Codable>(headerFields: [HeaderFieldModel]?,
+                          requstBody: Data?,
+                          queryItemsParameters: [String: Any]?,
+                          endpoint: String,
+                          authenticationIsRequired: Bool,
+                          checkHTTPStatusCode: Bool) async throws -> T
 }
 
