@@ -16,43 +16,102 @@ A simple iOS application to view SpaceX launches using the SpaceX API. This proj
 - Xcode 12.0+
 - Swift 5.0+
 
-## Installation
+## Getting Started
 
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/hoalimoradi/spacex-launches-viewer.git
-    ```
+To run the project locally and explore its functionalities:
 
-2. Open the project in Xcode:
-    ```sh
-    cd spacex-launches-viewer
-    open SpaceXLaunchesViewer.xcodeproj
-    ```
-
-3. Build and run the project on your desired simulator or device.
-
-## Usage
-
-1. Launch the application.
-2. The app will fetch and display a list of SpaceX launches.
-3. Scroll to the bottom of the list to load more launches (infinite scrolling).
-
+1. Clone the repository to your local machine.
+2. Open the project in Xcode.
+3. Build and run the project on a simulator or physical device.
+   
 ## Project Structure
+Certainly! Here's an improved and detailed README structure using Markdown, focusing on project modularization, Realm integration for caching, and using Realm for storing favorite items instead of JSON files:
+ 
+## Modules and Features
 
-- **Model**: Defines the `Launch` struct based on the SpaceX API.
-- **Service**: Contains `SpaceXService` class responsible for making API calls.
-- **ViewModel**: Includes `LaunchesViewModel` class that handles data fetching and state management.
-- **View**: Contains `LaunchesViewController` which sets up the UI and binds to the ViewModel.
+### Coordinator
 
-## Screenshots
+Handles navigation flow between different screens or modules in the application.
 
-![Launch List](screenshots/launch_list.png)
-![Launch Detail](screenshots/launch_detail.png)
+### Core
 
+Contains foundational classes and utilities used across various modules. Includes base classes like `BaseViewController`, common scenarios like `GeneralScenario`, and utilities such as `HTTPStatusCode`.
+
+### DependencyFactory
+
+Responsible for creating and providing dependencies throughout the application, ensuring loose coupling and facilitating easier testing.
+
+### Modules
+
+#### CommonAPI
+
+Contains utilities for common error handling and extensions used universally across the application.
+
+#### DataBaseAPI
+
+Manages interactions with a local database using Realm:
+- **Realm Integration**: Implements Realm to store and manage cached data.
+- **Caching**: Stores fetched data locally to improve performance and offline usability.
+
+#### LoggingAPI
+
+Custom logging utilities for debugging and monitoring application events:
+- **Logging**: Logs events and errors to aid in troubleshooting and performance monitoring.
+
+#### SharedUI
+
+Central repository for shared UI components and resources:
+- **Components**: Reusable UI elements like buttons, views, and custom controls.
+- **Constants**: Centralizes strings, dimensions, fonts, and themes used throughout the app for consistency.
+- **Extensions**: Enhances UIKit and Foundation classes with additional functionality.
+
+#### DataModelAPI
+
+Defines shared data models used throughout the application:
+- **Models**: Structured data representations used for serialization and deserialization.
+- **Serialization**: Handles data conversion between JSON and Swift objects.
+
+#### LaunchAPI
+
+Manages domain-specific operations related to fetching and managing launch data:
+- **Network Integration**: Retrieves launch data from remote APIs using URLSession.
+- **Data Management**: Syncs data between local Realm storage and remote sources.
+
+#### NetworkAPI
+
+Provides services for making API calls and handling network-related functionalities:
+- **HTTP Requests**: Sends HTTP requests to external APIs and manages responses.
+- **Error Handling**: Manages authentication errors, network reachability, and HTTP status codes.
+
+#### UserDefaultsAPI
+
+Manages persistent storage of application settings and preferences using UserDefaults:
+- **Settings Storage**: Stores user-specific preferences and configuration settings.
+- **User Defaults**: Ensures data persistence across app launches.
+
+## Remaining Work
+
+### Integration of Realm for Caching
+
+- Implement Realm across modules to store and manage cached data.
+- Utilize Realm's object-oriented database features for efficient data handling and synchronization.
+
+### Storing Favorite Items in Realm
+
+- Replace JSON file storage with Realm for storing favorite items:
+  - **Schema Definition**: Define Realm schema for storing favorite items.
+  - **CRUD Operations**: Implement operations for adding, updating, deleting, and querying favorite items.
+
+### Project Modularization
+
+- Further modularize the project to enhance code separation and maintainability:
+  - **Module Refactoring**: Refactor existing modules into smaller, reusable components.
+  - **Dependency Injection**: Implement dependency injection patterns to decouple components and improve testability.
+ 
 ## Contributing
 
-Contributions are welcome! Please create a pull request or open an issue to discuss your ideas.
+Contributions are welcome! Please fork the repository, make your changes, and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](LICENSE.md) - see the LICENSE.md file for details.
