@@ -48,6 +48,9 @@ protocol ProjectCoordinatorProtocol {
     /// - Parameter launchItemModel: The the item to display in the details view controller.
     func navigateToDetails(by launchItemModel: LaunchItemModel, isFavorite: Bool)
     
+    /// Opens the specified URL string using the default application handler.
+    ///
+    /// - Parameter urlString: The URL string to be opened.
     func openUrl(_ urlString: String?)
 }
 

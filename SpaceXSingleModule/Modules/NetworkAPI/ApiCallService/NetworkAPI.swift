@@ -15,9 +15,6 @@ public protocol NetworkAPIProtocol {
 /// A singleton class that manages network requests and handles authentication errors.
 public class NetworkAPI: NetworkAPIProtocol {
     
-    // Singleton instance of `NetworkAPI`.
-    public static let shared = NetworkAPI()
-    
     // Combine cancellables set to manage subscriptions.
     private var cancellables = Set<AnyCancellable>()
     
@@ -28,9 +25,9 @@ public class NetworkAPI: NetworkAPIProtocol {
     /// Publisher that emits authentication error events.
     public var authenticatioErrorValuePublisher = PassthroughSubject<Bool, Never>()
     
-    // Private initializer to enforce singleton pattern.
-    private init() {
-        httpClient = HttpClientManager.shared
+    // internal initializer to enforce singleton pattern.
+    init(httpClient: HttpClientManagerProtocol) {
+        self.httpClient = httpClient
         HttpClientManager.shared.authenticatioErrorValuePublisher
             .sink { [weak self] value in
                 self?.authenticatioErrorValuePublisher.send(value)

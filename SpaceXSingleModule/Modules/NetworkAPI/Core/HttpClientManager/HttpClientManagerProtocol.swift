@@ -10,7 +10,7 @@ import UIKit
 
 /// A protocol defining the interface for an HTTP client manager.
 ///
-/// This protocol provides methods to perform HTTP GET requests asynchronously,
+/// This protocol provides methods to perform HTTP GET/POST  requests asynchronously,
 /// handling Codable responses and optionally checking HTTP status codes.
 internal protocol HttpClientManagerProtocol {
     
@@ -30,7 +30,17 @@ internal protocol HttpClientManagerProtocol {
                          authenticationIsRequired: Bool,
                          checkHTTPStatusCode: Bool) async throws -> T
     
-    
+    /// Performs an HTTP POST request with customizable parameters.
+    ///
+    /// - Parameters:
+    ///   - headerFields: Optional array of header fields for the request.
+    ///   - requestBody: Optional data representing the body of the request.
+    ///   - queryItemsParameters: Optional dictionary of query items parameters.
+    ///   - endpoint: The endpoint or path for the API request.
+    ///   - authenticationIsRequired: Boolean flag indicating if authentication is required for the request.
+    ///   - checkHTTPStatusCode: Boolean flag indicating if HTTP status code needs to be checked.
+    /// - Returns: A decoded instance of type `T` representing the response data.
+    /// - Throws: An error if the request fails or if decoding the response data fails.
     func post<T: Codable>(headerFields: [HeaderFieldModel]?,
                           requstBody: Data?,
                           queryItemsParameters: [String: Any]?,

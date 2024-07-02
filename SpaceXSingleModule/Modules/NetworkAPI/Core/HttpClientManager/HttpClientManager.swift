@@ -9,8 +9,10 @@ import Foundation
 import Combine
 import UIKit
 
+/// A manager class responsible for handling HTTP requests and responses.
 internal class HttpClientManager: HttpClientManagerProtocol {
     
+    /// Constants used within the `HttpClientManager` class.
     enum Constants {
         static var httpMethodGET = "GET"
         static var httpMethodPOST = "POST"
@@ -19,22 +21,35 @@ internal class HttpClientManager: HttpClientManagerProtocol {
         static var contentType = "Content-Type"
         static var timeoutTimeInterval: TimeInterval = 60.0
     }
-     
+    
+    /// Publisher that emits authentication error events.
     public var authenticatioErrorValuePublisher = PassthroughSubject<Bool, Never>()
+    
+    /// Publisher that emits user banned error events.
     public var userBannedErrorValuePublisher = PassthroughSubject<Bool, Never>()
+    
+    /// Shared singleton instance of `HttpClientManager`.
     public static let shared: HttpClientManager = .init()
-     
-    //MARK: --
-    //let urlSession: URLSession
+    
+    /// URLSession provider for creating URL sessions.
     private var provideURLSessionAPI: URLSessionProviderProtocol
+    
+    /// UserDefaults API for managing user defaults.
     private let userDefaultsAPI: UserDefaultsProtocol
     
+    /// Logger for web-related activities.
     private var webLogger: WebLoggerProtocol
+    
+    /// Logger for capturing request/response logs.
     private var reponseLog = URLRequestLoggableImpl()
+    
+    /// Set to manage Combine subscriptions.
     private var cancellables: Set<AnyCancellable> = []
-     
+    
+    /// NSCache for caching images.
     private var imageCache = NSCache<NSURL, UIImage>()
-       
+    
+    /// Initializes an instance of `HttpClientManager`.
     internal init() {
         webLogger = WebLogger()
         userDefaultsAPI = UserDefaults.standard
@@ -42,15 +57,30 @@ internal class HttpClientManager: HttpClientManagerProtocol {
         NetworkMonitor.shared.startMonitoring()
     }
     
+    /// Deinitializes the `HttpClientManager` instance.
     deinit {
         NetworkMonitor.shared.stopMonitoring()
     }
     
     //MARK: - ssl pinning chech
-    func provideSesseion(endpoint: String) -> URLSession? {
+    /// Provides a URLSession instance for a given endpoint.
+    ///
+    /// - Parameter endpoint: The endpoint for which the URLSession is needed.
+    /// - Returns: An optional URLSession instance.
+    private func provideSesseion(endpoint: String) -> URLSession? {
         return provideURLSessionAPI.getURLSession(from: endpoint, checkSSL: false)
     }
     
+    /// Performs an HTTP GET request and decodes the response into a generic type `T`.
+    ///
+    /// - Parameters:
+    ///   - headerFields: Optional array of header fields for the request.
+    ///   - endpoint: The endpoint or URL string for the GET request.
+    ///   - queryItemsParameters: Optional dictionary of query items parameters.
+    ///   - authenticationIsRequired: Boolean flag indicating if authentication is required for the request.
+    ///   - checkHTTPStatusCode: Boolean flag indicating if HTTP status code needs to be checked.
+    /// - Returns: A decoded instance of type `T` representing the response data.
+    /// - Throws: An error if the request fails or if decoding the response data fails.
     public func get<T>(headerFields: [HeaderFieldModel]?,
                        endpoint: String,
                        queryItemsParameters: [String : Any]?,
@@ -86,10 +116,19 @@ internal class HttpClientManager: HttpClientManagerProtocol {
                                          urlSession: session,
                                          checkHTTPStatusCode: checkHTTPStatusCode)
         return result
-    }
+    } 
     
-    
-    
+    /// Performs an HTTP POST request and decodes the response into a generic type `T`.
+    ///
+    /// - Parameters:
+    ///   - headerFields: Optional array of header fields for the request.
+    ///   - requstBody: Optional data representing the body of the request.
+    ///   - queryItemsParameters: Optional dictionary of query items parameters.
+    ///   - endpoint: The endpoint or URL string for the POST request.
+    ///   - authenticationIsRequired: Boolean flag indicating if authentication is required for the request.
+    ///   - checkHTTPStatusCode: Boolean flag indicating if HTTP status code needs to be checked.
+    /// - Returns: A decoded instance of type `T` representing the response data.
+    /// - Throws: An error if the request fails or if decoding the response data fails.
     public func post<T>(headerFields: [HeaderFieldModel]?,
                         requstBody: Data?,
                         queryItemsParameters: [String : Any]?,
@@ -130,9 +169,12 @@ internal class HttpClientManager: HttpClientManagerProtocol {
     } 
 
     // MARK: Fetch Generic Type
-    /// Fetch generic type `<T>` from [`URL`](https://developer.apple.com/documentation/foundation/url)
-    /// - Parameter url: The URL to fetch from.
-    /// - Returns: Result type for a generic type of `<T>`.
+    /// - Parameters:
+    ///   - request: The URLRequest instance representing the API request.
+    ///   - urlSession: The URLSession instance used to execute the request.
+    ///   - checkHTTPStatusCode: Boolean flag indicating if HTTP status code needs to be checked.
+    /// - Returns: A decoded instance of type `T` representing the response data.
+    /// - Throws: An error if the request fails or if decoding the response data fails.
     private func apiCall<T: Codable>(request: URLRequest,
                                      urlSession: URLSession,
                                      checkHTTPStatusCode: Bool) async throws -> T  {
@@ -229,7 +271,11 @@ internal class HttpClientManager: HttpClientManagerProtocol {
             }
         }
     }
- 
+    
+    /// Parses client message error from the provided JSON data.
+    ///
+    /// - Parameter jsonData: The JSON data containing client error message.
+    /// - Returns: A string representing the parsed client error message.
     private func parsClientMessageError(_ jsonData: Data) -> String {
         guard let model = try? JSONDecoder().decode(String.self, from: jsonData) else {
             LoggingAPI.shared.log("parsClientMessageError is nil", level: .error)
@@ -239,14 +285,14 @@ internal class HttpClientManager: HttpClientManagerProtocol {
         return model
     }
     
-    // MARK: -  triggerExpiredAccessTokenObserverError
+    /// Triggers an observer error for expired access token.
     private func triggerExpiredAccessTokenObserverError() {
         authenticatioErrorValuePublisher.send(true)
         LoggingAPI.shared.log("triggerExpiredAccessTokenObserverError", level: .warning)
          
     }
     
-    // MARK: -  triggerUserBannedObserverError
+    /// Triggers an observer error for user banned scenario.
     private func triggerUserBannedObserverError() {
         userBannedErrorValuePublisher.send(true)
         LoggingAPI.shared.log("triggerUserBannedObserverError", level: .warning)

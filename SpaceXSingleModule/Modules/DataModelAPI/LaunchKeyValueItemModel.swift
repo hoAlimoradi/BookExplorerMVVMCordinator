@@ -8,23 +8,41 @@
 import Foundation
 import UIKit
 
+/// Represents a key-value pair item related to launch details.
 public struct LaunchKeyValueItemModel {
+    /// The category of the key-value pair.
     public let category: String
+    
+    /// The key of the key-value pair.
     public let key: String
+    
+    /// The value associated with the key.
     public let value: String
 }
+
+/// Represents detailed information about a launch item.
 public struct LaunchDetailsItemModel {
+    /// The unique identifier of the launch.
     public let id: String
+    
+    /// The name or title of the launch.
     public let name: String
+    
+    /// The rocket used for the launch.
     public let rocket: String
+    
+    /// Additional details about the launch.
     public let details: String?
+    
+    /// The URL string for an image related to the launch.
     public let imageUrlString: String?
+    
+    /// The Wikipedia URL string for more information about the launch.
     public let wikiUrlString: String?
 }
- 
- 
 
- 
+
+//MARK: mapper
 extension LaunchItemModel {
     func toLaunchDetailsItemModel() -> LaunchDetailsItemModel {
         let launchDetailsItemModel = LaunchDetailsItemModel(id: self.id,

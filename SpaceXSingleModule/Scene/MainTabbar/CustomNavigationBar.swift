@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 open class CustomNavigationBar: UINavigationBar {
-
+    
     enum Contants {
         static var titleHuggingPriority: Float = 501
         static var titleCompressionResistancePriority: Float = 748
@@ -24,19 +24,19 @@ open class CustomNavigationBar: UINavigationBar {
         static var titleViewSpacing: CGFloat = 8
         static var iconArrowLeft = "iconArrowLeft"
     }
-
+    
     var titleView: UIView?
-
+    
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
         self.setDefaultStyle()
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setDefaultStyle()
     }
- 
+    
     open func setDefaultStyle() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -50,41 +50,41 @@ open class CustomNavigationBar: UINavigationBar {
     }
     
     // Add a custom height constant
-       static var customHeight: CGFloat = 60  // Example custom height
-       
-       // Override sizeThatFits to increase height of navigation bar
-       open override func sizeThatFits(_ size: CGSize) -> CGSize {
-           let originalSize = super.sizeThatFits(size)
-           return CGSize(width: originalSize.width, height: CustomNavigationBar.customHeight)
-       }
-       
+    static var customHeight: CGFloat = 60  // Example custom height
+    
+    // Override sizeThatFits to increase height of navigation bar
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        let originalSize = super.sizeThatFits(size)
+        return CGSize(width: originalSize.width, height: CustomNavigationBar.customHeight)
+    }
+    
 }
 
 extension UIViewController {
-
+    
     var leftButtonsSpace: Int {
         let leftButtons = navigationItem.leftBarButtonItems?.count ?? 0
         return leftButtons * CustomNavigationBar.Contants.barButtonSize + (leftButtons * CustomNavigationBar.Contants.barButtonMargin) + CustomNavigationBar.Contants.barButtonToViewMargin
     }
-
+    
     var rightButtonsSpace: Int {
         let rightButtons = navigationItem.rightBarButtonItems?.count ?? 0
         return rightButtons * CustomNavigationBar.Contants.barButtonSize + (rightButtons * CustomNavigationBar.Contants.barButtonMargin) + CustomNavigationBar.Contants.barButtonToViewMargin
     }
-
+    
     public func getNavigationBar() -> CustomNavigationBar? {
         return navigationController?.navigationBar as? CustomNavigationBar
     }
-
+    
     public func setNavigationLeftTitle(_ title: String, icon: UIImage? = nil, font: UIFont? = nil) {
         getNavigationBar()?.titleView?.removeFromSuperview()
         getNavigationBar()?.titleView = makeTitleView(title: title, icon: icon, font: font ?? Fonts.B1.medium)
         getNavigationBar()?.addSubview(getNavigationBar()?.titleView ?? UIView())
     }
     public func setNavigationLeftTitlesWithTouchCallBack(_ title: String,
-                                                       icon: UIImage? = nil,
-                                                       font: UIFont? = nil,
-                                                       touched: (() -> Void)? = nil) {
+                                                         icon: UIImage? = nil,
+                                                         font: UIFont? = nil,
+                                                         touched: (() -> Void)? = nil) {
         getNavigationBar()?.titleView?.removeFromSuperview()
         getNavigationBar()?.titleView = makeTitleView(title: title,
                                                       icon: icon,
@@ -109,7 +109,7 @@ extension UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = nil
         setNavigationLeftTitle(title, icon: titleIcon, font: font ?? Fonts.B1.medium)
     }
-
+    
     private func makeTitleView(title: String,
                                icon: UIImage? = nil,
                                font: UIFont,
@@ -133,16 +133,16 @@ extension UIViewController {
             titleLabel.setOnTapped { [touched] in
                 touched?()
             }
-
+            
             titleLabels.append(titleLabel)
         }
         // ... existing code for titleLabels setup ...
-
+        
         let iconView = UIImageView(image: icon)
         iconView.contentMode = .scaleAspectFit
         iconView.widthAnchor.constraint(equalToConstant: CGFloat(CustomNavigationBar.Contants.titleIconWidth)).isActive = true
         iconView.heightAnchor.constraint(equalToConstant: CGFloat(CustomNavigationBar.Contants.titleIconHeight)).isActive = true
-
+        
         // Use a container view for the icon to apply top margin
         let iconContainer = UIView()
         iconContainer.addSubview(iconView)
@@ -161,35 +161,35 @@ extension UIViewController {
         labelsStack.bottomAnchor.constraint(equalTo: labelsContainer.bottomAnchor, constant: -10).isActive = true // Bottom margin for text
         labelsStack.leadingAnchor.constraint(equalTo: labelsContainer.leadingAnchor).isActive = true
         labelsStack.trailingAnchor.constraint(equalTo: labelsContainer.trailingAnchor).isActive = true
-
+        
         // Main stack view setup
         let mainStack = UIStackView(arrangedSubviews: [iconContainer, labelsContainer])
         mainStack.axis = .vertical
         mainStack.alignment = .center
         mainStack.distribution = .equalSpacing
         mainStack.spacing = 8 // Spacing between icon and labels container
-
+        
         // Since we are using autolayout constraints, we do not set the frame directly
         mainStack.translatesAutoresizingMaskIntoConstraints = false
-
+        
         // Assuming the 'leftButtonsSpace' and 'rightButtonsSpace' calculations are done elsewhere and are correct
         NSLayoutConstraint.activate([
             iconView.bottomAnchor.constraint(equalTo: mainStack.topAnchor, constant: 10), // This applies top margin to icon view
             labelsStack.bottomAnchor.constraint(equalTo: mainStack.bottomAnchor, constant: -10) // This applies bottom margin to labels
         ])
-
+        
         // Now, 'mainStack' can be added to the navigation bar and constraints can be applied based on the desired layout
         return mainStack
     }
-
+    
     public func removeTitleView() {
         getNavigationBar()?.titleView?.removeFromSuperview()
     }
-
+    
     public func addTitleView() {
         getNavigationBar()?.addSubview(getNavigationBar()?.titleView ?? UIView())
     }
-
+    
     @objc func back() {
         navigationController?.popViewController(animated: true)
     }

@@ -32,7 +32,6 @@ final class DetailsViewController: BaseViewController {
     }
     
     // MARK: - configNavigationItems
-    
     private func configNavigationItems() {
         navigationController?.navigationBar.tintColor = ThemeManager.shared.getCurrentThemeColors().primary1
         navigationItem.title = AppStrings.Details.title.localized
@@ -49,7 +48,7 @@ final class DetailsViewController: BaseViewController {
         }
         
         let bookmarkNavigationItem = UIBarButtonItem(image: bookmarkImage, style: .plain, target: self, action: #selector(selectionBookmarkButtonPressed))
-            
+        
         navigationItem.rightBarButtonItem = bookmarkNavigationItem
     }
     private func configSelectionButton(by favoriteStatus: FavoriteStatusEnum?) {
@@ -81,7 +80,7 @@ final class DetailsViewController: BaseViewController {
                            forCellReuseIdentifier: ExportDetailsTableViewCell.identifier)
         tableView.setDefaultProperties()
         tableView.delegate = self
-        tableView.dataSource = self 
+        tableView.dataSource = self
         return tableView
     }()
     
@@ -104,8 +103,7 @@ final class DetailsViewController: BaseViewController {
     
     private func bind() {
         viewModel.action(.checkIsFavorite)
-        
-        
+ 
         viewModel.launchDetailsItemModelSubject
             .receive(on: DispatchQueue.main)
             .sink { [weak self] details in
@@ -113,7 +111,7 @@ final class DetailsViewController: BaseViewController {
                 self.detailsItemModel = details
                 self.eventDetailsTableView.reloadData()
             }.store(in: &cancellables)
- 
+        
         viewModel.favoriteStatusSubject
             .receive(on: DispatchQueue.main)
             .sink { [weak self] favoriteStatus in
@@ -138,15 +136,15 @@ final class DetailsViewController: BaseViewController {
     }
 }
 //MARK: TableViewDelegateDataSource
- 
+
 extension DetailsViewController: TableViewDelegateDataSource {
-  
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         switch indexPath.row {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: InfoProfilePropertyTableViewCell.identifier, for: indexPath) as? InfoProfilePropertyTableViewCell else {
@@ -160,7 +158,7 @@ extension DetailsViewController: TableViewDelegateDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ExportDetailsTableViewCell.identifier, for: indexPath) as? ExportDetailsTableViewCell else {
                 fatalError()
             }
-            cell.selectionStyle = .none  
+            cell.selectionStyle = .none
             cell.selectionButtonPressedSubject.sink { [weak self] _ in
                 self?.viewModel.action(.export)
             }.store(in: &cancellables)
@@ -173,7 +171,7 @@ extension DetailsViewController: TableViewDelegateDataSource {
             cell.selectionStyle = .none
             cell.config(title: "Links")
             return cell
- 
+            
         case 3:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ProfileLinkPropertyTableViewCell.identifier, for: indexPath) as? ProfileLinkPropertyTableViewCell else {
                 fatalError()
@@ -181,12 +179,12 @@ extension DetailsViewController: TableViewDelegateDataSource {
             cell.selectionStyle = .none
             cell.config(title: "Wiki",
                         description: self.detailsItemModel?.wikiUrlString)
-          
+            
             cell.selectionButtonPressedSubject.sink { [weak self] urlString in
                 self?.viewModel.action(.toggleItem(urlString))
             }.store(in: &cancellables)
             return cell
- 
+            
         case 4:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: TitleDescriptionDetailsTableViewCell.identifier, for: indexPath) as? TitleDescriptionDetailsTableViewCell else {
                 fatalError()
@@ -194,12 +192,12 @@ extension DetailsViewController: TableViewDelegateDataSource {
             cell.config(title: "Details", description: detailsItemModel?.details)
             cell.selectionStyle = .none
             return cell
-          
+            
         default:
             return UITableViewCell()
         }
     }
-   
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
@@ -211,13 +209,13 @@ extension DetailsViewController: TableViewDelegateDataSource {
             
         case 2:
             return 40
-             
+            
         case 3:
             guard let _ = self.detailsItemModel?.wikiUrlString else {
                 return 0
             }
             return 56
-
+            
         case 4:
             guard let _ = self.detailsItemModel?.details else {
                 return 0
@@ -227,7 +225,7 @@ extension DetailsViewController: TableViewDelegateDataSource {
             return 0
         }
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
@@ -240,12 +238,12 @@ extension DetailsViewController {
          
         date:
         \(Date().toDayMonthString())
-
+        
         data:
         \(exportedAsString)
          
         """
- 
+        
         let activityViewController = UIActivityViewController(activityItems: [invitationMessage], applicationActivities: nil)
         
         // For iPads, you need to specify where the activity sheet should be anchored to.

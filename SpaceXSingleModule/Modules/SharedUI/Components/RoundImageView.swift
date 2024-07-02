@@ -36,7 +36,6 @@ class RoundImageView: UIImageView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         self.layer.borderWidth = borderWidth
         self.layer.borderColor = borderColor.cgColor
         self.layer.cornerRadius = customCornerRadius ?? self.frame.size.width/2
