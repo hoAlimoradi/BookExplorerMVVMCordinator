@@ -11,7 +11,6 @@ final class HomeViewController: BaseViewController {
 
     // MARK: - Properties
     private enum Constants {
-        static let cellReuseIdentifier = "LaunchCell"
         static let spacing: CGFloat = 10
     }
 
@@ -39,13 +38,13 @@ final class HomeViewController: BaseViewController {
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
-        collectionView.register(HomeLaunchCell.self, forCellWithReuseIdentifier: Constants.cellReuseIdentifier)
+        collectionView.register(HomeLaunchCell.self, forCellWithReuseIdentifier: HomeLaunchCell.identifier)
         return collectionView
     }()
 
     private lazy var dataSource: UICollectionViewDiffableDataSource<Int, LaunchItemModel> = {
         return UICollectionViewDiffableDataSource<Int, LaunchItemModel>(collectionView: collectionView) { collectionView, indexPath, launchItem in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellReuseIdentifier, for: indexPath) as? HomeLaunchCell else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeLaunchCell.identifier, for: indexPath) as? HomeLaunchCell else {
                 fatalError("Unable to dequeue HomeLaunchCell")
             }
             cell.configure(with: launchItem)
@@ -112,6 +111,7 @@ final class HomeViewController: BaseViewController {
     }
 
     internal override func configureSubViews() {
+        navigationItem.title = AppStrings.Home.title.localized
         view.backgroundColor = ThemeManager.shared.getCurrentThemeColors().white1
         view.addSubview(titleLabel)
         view.addSubview(collectionView)

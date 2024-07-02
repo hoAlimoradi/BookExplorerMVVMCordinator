@@ -8,82 +8,82 @@
 import Foundation 
 
 //MARK: Response Models
-public struct LaunchResponseModel: Codable {
-    public let id: String
-    public let name: String
-    public let dateUTC: String?
-    public let dateUnix: Int?
-    public let dateLocal: String?
-    public let datePrecision: String?
-    public let staticFireDateUTC: String?
-    public let staticFireDateUnix: Int?
-    public let tbd: Bool?
-    public let net: Bool?
-    public let window: Int?
-    public let rocket: String
-    public let success: Bool?
-    public let failures: [FailureResponseModel]?
-    public let details: String?
-    public let crew: [String]?
-    public let ships: [String]?
-    public let capsules: [String]?
-    public let payloads: [String]?
-    public let launchpad: String?
-    public let autoUpdate: Bool?
-    public let flightNumber: Int?
-    public let upcoming: Bool?
-    public let cores: [CoreResponseModel]?
-    public let links: LinksResponseModel?
+struct LaunchResponseModel: Codable {
+     let id: String
+     let name: String
+     let dateUTC: String?
+     let dateUnix: Int?
+     let dateLocal: String?
+     let datePrecision: String?
+     let staticFireDateUTC: String?
+     let staticFireDateUnix: Int?
+     let tbd: Bool?
+     let net: Bool?
+     let window: Int?
+     let rocket: String
+     let success: Bool?
+     let failures: [FailureResponseModel]?
+     let details: String?
+     let crew: [String]?
+     let ships: [String]?
+     let capsules: [String]?
+     let payloads: [String]?
+     let launchpad: String?
+     let autoUpdate: Bool?
+     let flightNumber: Int?
+     let upcoming: Bool?
+     let cores: [CoreResponseModel]?
+     let links: LinksResponseModel?
 }
 
-public struct FailureResponseModel: Codable {
-    public let time: Int?
-    public let altitude: Int?
-    public let reason: String?
+ struct FailureResponseModel: Codable {
+     let time: Int?
+     let altitude: Int?
+     let reason: String?
 }
 
-public struct CoreResponseModel: Codable {
-    public let core: String?
-    public let flight: Int?
-    public let gridfins: Bool?
-    public let legs: Bool?
-    public let reused: Bool?
-    public let landingAttempt: Bool?
-    public let landingSuccess: Bool?
-    public let landingType: String?
-    public let landpad: String?
+ struct CoreResponseModel: Codable {
+     let core: String?
+     let flight: Int?
+     let gridfins: Bool?
+     let legs: Bool?
+     let reused: Bool?
+     let landingAttempt: Bool?
+     let landingSuccess: Bool?
+     let landingType: String?
+     let landpad: String?
 }
 
-public struct LinksResponseModel: Codable {
-    public let patch: PatchResponseModel?
-    public let reddit: RedditResponseModel?
-    public let flickr: FlickrResponseModel?
-    public let presskit: String?
-    public let webcast: String?
-    public let youtubeID: String?
-    public let article: String?
-    public let wikipedia: String?
+ struct LinksResponseModel: Codable {
+     let patch: PatchResponseModel?
+     let reddit: RedditResponseModel?
+     let flickr: FlickrResponseModel?
+     let presskit: String?
+     let webcast: String?
+     let youtubeID: String?
+     let article: String?
+     let wikipedia: String?
 }
 
-public struct PatchResponseModel: Codable {
-    public let small: String?
-    public let large: String?
+ struct PatchResponseModel: Codable {
+     let small: String?
+     let large: String?
 }
 
-public struct RedditResponseModel: Codable {
-    public let campaign: String?
-    public let launch: String?
-    public let media: String?
-    public let recovery: String?
+ struct RedditResponseModel: Codable {
+     let campaign: String?
+     let launch: String?
+     let media: String?
+     let recovery: String?
 }
 
-public struct FlickrResponseModel: Codable {
-    public let small: [String]?
-    public let original: [String]?
+ struct FlickrResponseModel: Codable {
+     let small: [String]?
+     let original: [String]?
 }
 
 //MARK: mapper
-public extension LaunchItemModel {
+ extension LaunchItemModel {
     init(from responseModel: LaunchResponseModel) {
         self.id = responseModel.id
         self.name = responseModel.name
@@ -99,7 +99,13 @@ public extension LaunchItemModel {
         self.rocket = responseModel.rocket
         self.success = responseModel.success
         self.details = responseModel.details
+        self.crew = responseModel.crew
+        self.ships = responseModel.ships
+        self.capsules = responseModel.capsules
+        self.payloads = responseModel.payloads
+        self.launchpad = responseModel.launchpad
         self.flightNumber = responseModel.flightNumber
+        self.autoUpdate = responseModel.autoUpdate 
         self.upcoming = responseModel.upcoming
         self.failures = responseModel.failures?.map { FailureItemModel(from: $0) }
         self.cores = responseModel.cores?.map { CoreItemModel(from: $0) }
@@ -107,7 +113,7 @@ public extension LaunchItemModel {
     }
 }
 
-public extension FailureItemModel {
+ extension FailureItemModel {
     init(from responseFailure: FailureResponseModel) {
         self.time = responseFailure.time
         self.altitude = responseFailure.altitude
@@ -115,7 +121,7 @@ public extension FailureItemModel {
     }
 }
 
-public extension CoreItemModel {
+ extension CoreItemModel {
     init(from responseCore: CoreResponseModel) {
         self.core = responseCore.core
         self.flight = responseCore.flight
@@ -129,7 +135,7 @@ public extension CoreItemModel {
     }
 }
 
-public extension LinksItemModel {
+ extension LinksItemModel {
     init(from responseLinks: LinksResponseModel) {
         self.patch = responseLinks.patch.map { PatchItemModel(from: $0) }
         self.reddit = responseLinks.reddit.map { RedditItemModel(from: $0) }
@@ -142,14 +148,14 @@ public extension LinksItemModel {
     }
 }
 
-public extension PatchItemModel {
+ extension PatchItemModel {
     init(from responsePatch: PatchResponseModel) {
         self.small = responsePatch.small
         self.large = responsePatch.large
     }
 }
 
-public extension RedditItemModel {
+ extension RedditItemModel {
     init(from responseReddit: RedditResponseModel) {
         self.campaign = responseReddit.campaign
         self.launch = responseReddit.launch
@@ -158,43 +164,18 @@ public extension RedditItemModel {
     }
 }
 
-public extension FlickrItemModel {
+ extension FlickrItemModel {
     init(from responseFlickr: FlickrResponseModel) {
         self.small = responseFlickr.small
         self.original = responseFlickr.original
     }
 }
 
-public extension Array where Element == LaunchResponseModel {
+ extension Array where Element == LaunchResponseModel {
     func toLaunchItemModel() -> [LaunchItemModel] {
         return self.map { LaunchItemModel(from: $0) }
     }
 }
-
-//// MARK: - LaunchResponseModel
-//struct LaunchResponseModel: Codable {
-//    let id: String
-//    let name: String
-//    let rocket: String
-//    let date: String?
-//    
-//    enum CodingKeys: String, CodingKey {
-//        case id
-//        case name
-//        case rocket
-//        case date = "date_utc"
-//    }
-//}
-//// MARK: - Mappers
-//extension LaunchResponseModel {
-//  func toLaunchItemModel() -> LaunchItemModel {
-//      return LaunchItemModel(id: self.id,
-//                             name: self.name,
-//                             rocket: self.rocket,
-//                             date: self.date?.convertToDateWithTimezone())
-//  }
-//}
-
-typealias LaunchListResponseModel = BaseApiResponseModel<[LaunchResponseModel]>
+ typealias LaunchListResponseModel = BaseApiResponseModel<[LaunchResponseModel]>
  
  

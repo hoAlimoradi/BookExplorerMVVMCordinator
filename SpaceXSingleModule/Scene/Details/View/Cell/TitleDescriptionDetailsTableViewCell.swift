@@ -3,7 +3,7 @@
 //  SpaceXSingleModule
 //
 //  Created by ho on 4/10/1403 AP.
-//
+// 
 import Foundation
 import UIKit
 import Combine
@@ -15,51 +15,45 @@ class TitleDescriptionDetailsTableViewCell: UITableViewCell {
     private enum Constants {
         static var borderWidth = CGFloat(1)
     }
-
-    private var cancelBag = Set<AnyCancellable>()
-    
+  
     private lazy var contentParentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        return view
+    }()
+ 
+    private lazy var parentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = ThemeManager.shared.getCurrentThemeColors().white1
         return view
     }()
-    
-    private lazy var parentView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = ThemeManager.shared.getCurrentThemeColors().yellow3
-        view.layer.borderColor = ThemeManager.shared.getCurrentThemeColors().yellow1.cgColor
-        view.layer.borderWidth = Constants.borderWidth
-        view.layer.cornerRadius = RoundedCornerDimens.radius3
-        return view
-    }()
-    
  
-   private lazy var titleLabel: UILabel = {
-       let label = UILabel()
-       label.isUserInteractionEnabled = false
-       label.numberOfLines = 0
-       label.textAlignment = .left
-       label.autoresize()
-       label.font = Fonts.B1.medium
-       label.textColor = ThemeManager.shared.getCurrentThemeColors().black2
-       label.translatesAutoresizingMaskIntoConstraints = false
-       return label
-   }()
-
-    private lazy var descriptionLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.isUserInteractionEnabled = false
         label.numberOfLines = 0
         label.textAlignment = .left
         label.autoresize()
-        label.font = Fonts.B2.regular
-        label.textColor = ThemeManager.shared.getCurrentThemeColors().red1
+        label.font = Fonts.B1.medium
+        label.textColor = ThemeManager.shared.getCurrentThemeColors().black2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+ 
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.isUserInteractionEnabled = false
+        label.numberOfLines = 1
+        label.textAlignment = .left
+        label.autoresize()
+        label.font = Fonts.C1Caps.regular
+        label.textColor = ThemeManager.shared.getCurrentThemeColors().grey1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -89,18 +83,19 @@ class TitleDescriptionDetailsTableViewCell: UITableViewCell {
             contentParentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
 
             parentView.topAnchor.constraint(equalTo: contentParentView.topAnchor, constant: TopMargin.spacingXxs),
-            parentView.leadingAnchor.constraint(equalTo: contentParentView.leadingAnchor, constant: LeadingMargin.spacingXs),
-            parentView.trailingAnchor.constraint(equalTo: contentParentView.trailingAnchor, constant: TrailingMargin.spacingXs),
-            parentView.bottomAnchor.constraint(equalTo: contentParentView.bottomAnchor, constant: BottomMargin.spacingXxs),
+            parentView.leadingAnchor.constraint(equalTo: contentParentView.leadingAnchor),
+            parentView.trailingAnchor.constraint(equalTo: contentParentView.trailingAnchor),
+            parentView.bottomAnchor.constraint(equalTo: contentParentView.bottomAnchor),
             
             titleLabel.topAnchor.constraint(equalTo: parentView.topAnchor, constant: TopMargin.spacingXs),
-            titleLabel.leadingAnchor.constraint(equalTo: parentView.leadingAnchor, constant: LeadingMargin.spacingXs),
-            titleLabel.trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: TrailingMargin.spacingMed),
+            titleLabel.leadingAnchor.constraint(equalTo: parentView.leadingAnchor, constant: LeadingMargin.spacingLg),
+            titleLabel.trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: TrailingMargin.spacingLg),
             
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: TopMargin.spacingXs),
-            descriptionLabel.leadingAnchor.constraint(equalTo: parentView.leadingAnchor, constant: LeadingMargin.spacingMed),
-            descriptionLabel.trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: TrailingMargin.spacingMed),
-            descriptionLabel.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: BottomMargin.spacingXxs)
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: TopMargin.spacingXxs),
+            descriptionLabel.leadingAnchor.constraint(equalTo: parentView.leadingAnchor, constant: LeadingMargin.spacingLg),
+            descriptionLabel.trailingAnchor.constraint(equalTo: parentView.trailingAnchor, constant: TrailingMargin.spacingLg),
+            descriptionLabel.bottomAnchor.constraint(equalTo: parentView.bottomAnchor, constant: BottomMargin.spacingXxs),
+ 
         ])
     }
  
@@ -109,9 +104,13 @@ class TitleDescriptionDetailsTableViewCell: UITableViewCell {
         descriptionLabel.text = ""
     }
  
-    func config(_ model: LaunchKeyValueItemModel?) {
-        guard let model = model else { return }
-        titleLabel.text = model.key
-        descriptionLabel.text = model.value
+    func config(title: String?, description: String?) {
+        guard let title = title, let description = description else {
+            contentParentView.isHidden = true
+            return
+        }
+        contentParentView.isHidden = false
+        titleLabel.text = title
+        descriptionLabel.text = description
     }
 }

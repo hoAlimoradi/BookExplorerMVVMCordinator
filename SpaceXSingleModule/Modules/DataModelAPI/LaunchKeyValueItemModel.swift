@@ -6,13 +6,36 @@
 //
 
 import Foundation
+import UIKit
+
 public struct LaunchKeyValueItemModel {
     public let category: String
     public let key: String
     public let value: String
 }
+public struct LaunchDetailsItemModel {
+    public let id: String
+    public let name: String
+    public let rocket: String
+    public let details: String?
+    public let imageUrlString: String?
+    public let wikiUrlString: String?
+}
+ 
+ 
 
-
+ 
+extension LaunchItemModel {
+    func toLaunchDetailsItemModel() -> LaunchDetailsItemModel {
+        let launchDetailsItemModel = LaunchDetailsItemModel(id: self.id,
+                                                            name: self.name,
+                                                            rocket: self.rocket,
+                                                            details: self.details,
+                                                            imageUrlString: self.links?.patch?.small,
+                                                            wikiUrlString: self.links?.wikipedia)
+        return launchDetailsItemModel
+    }
+}
 extension LaunchItemModel {
     func toKeyValueItems() -> [LaunchKeyValueItemModel] {
         var items: [LaunchKeyValueItemModel] = []
@@ -64,6 +87,11 @@ extension FailureItemModel {
     }
 }
 
+extension Array where Element == LaunchKeyValueItemModel {
+    func toKeyValueString() -> String {
+        return self.map { "\($0.key): \($0.value)" }.joined(separator: ", ")
+    }
+}
 extension CoreItemModel {
     func toKeyValueItems() -> [LaunchKeyValueItemModel] {
         var items: [LaunchKeyValueItemModel] = []

@@ -14,7 +14,7 @@ public extension Date {
     ///
     /// - Parameter timeZoneIdentifier: The identifier of the time zone to be used for formatting.
     /// - Returns: A string representing the date in the specified time zone format. Returns "Invalid time zone identifier" if the provided identifier is invalid.
-    func toStringWithTimezone(timeZoneIdentifier: String) -> String {
+    func toStringWithTimezone(timeZoneIdentifier: String? = nil) -> String {
         let pureDateFormatter = DateFormatter()
         pureDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
         _ = pureDateFormatter.string(from: self)
@@ -26,7 +26,7 @@ public extension Date {
         let currentTimeZoneDateString = currentTimeZonedateFormatter.string(from: self)
         
         // Get the time difference between GMT and the input time zone
-        guard let inputTimeZone = TimeZone(identifier: timeZoneIdentifier) else {
+        guard let inputTimeZone = TimeZone(identifier: timeZoneIdentifier ?? TimeZone.current.identifier) else {
             return "Invalid time zone identifier"
         }
         let gmtOffset = inputTimeZone.secondsFromGMT(for: self)

@@ -9,6 +9,9 @@ import Foundation
 import UIKit
 // MARK: - LaunchCell
 class HomeLaunchCell: UICollectionViewCell {
+    
+    static let identifier = "HomeLaunchCell"
+    
     private enum Constants {
         static var borderWidth = CGFloat(1)
     }

@@ -6,9 +6,10 @@
 //
 import Foundation
 import Combine 
+import UIKit
 
 public protocol NetworkAPIProtocol {
-    func getLaunchItems(by paginationModel: PaginationModel) async throws -> PaginationResult<LaunchItemModel>
+    func getLaunchItems(by paginationModel: PaginationModel) async throws -> PaginationResult<LaunchItemModel> 
 }
 
 /// A singleton class that manages network requests and handles authentication errors.
@@ -59,7 +60,7 @@ public class NetworkAPI: NetworkAPIProtocol {
             HeaderFieldModel(key: "version", value: API.version),
             HeaderFieldModel(key: "language", value: API.language)
         ]
-    }
+    } 
     
     // MARK: - Fetch Launch Items
     /// Fetches the launch items from the API.

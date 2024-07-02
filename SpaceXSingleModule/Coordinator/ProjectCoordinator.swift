@@ -10,7 +10,7 @@ import Combine
 
 class ProjectCoordinator: AbstractCoordinator,
                           ProjectCoordinatorProtocol {
-    
+     
     var showChatBasedOnChannelURLSubject = PassthroughSubject<String?, Never>()
     var linkTypeSubject = PassthroughSubject<String?, Never>()
     
@@ -48,17 +48,7 @@ class ProjectCoordinator: AbstractCoordinator,
         logViewControllerClassName()
         childCoordinators.removeAll()
     }
-    
-//    func makeSplashViewController() -> SplashViewController {
-//        logViewControllerClassName()
-//        let splashViewController = factory.buildSplash(self)
-//        return splashViewController
-//    }
-    // Since the splashViewController is already created and set as root, we don't create it again.
-    // Additional setup if needed.
-//        if let window = UIApplication.shared.windows.first {
-//            window.switchRootViewController(viewController)
-//        }
+ 
     
     /// Start the coordinator, initializing dependencies
     func start(_ viewController: UIViewController) {
@@ -66,13 +56,7 @@ class ProjectCoordinator: AbstractCoordinator,
         self.viewController = viewController
         logViewControllerClassName() // Log again after setting viewController
     }
-//    func navigateToSplash() {
-//        logViewControllerClassName()
-//        let vc = factory.buildSplash(self)
-//        if let window = UIApplication.shared.windows.first {
-//            window.switchRootViewController(vc)
-//        }
-//    }
+ 
     func updateCoordinatorRoot(_ viewController: UIViewController) {
         self.viewController = viewController
     }
@@ -99,5 +83,11 @@ class ProjectCoordinator: AbstractCoordinator,
                                       isFavorite: isFavorite)
         viewController?.navigationController?.pushViewControllerOnce(vc, animated: true)
     } 
+    
+    func openUrl(_ urlString: String?) {
+        if let url = urlString, let validUrl = url.asURL() {
+            UIApplication.shared.open(validUrl)
+        }
+    }
 }
 
