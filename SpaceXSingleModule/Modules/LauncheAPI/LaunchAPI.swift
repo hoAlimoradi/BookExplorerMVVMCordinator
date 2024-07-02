@@ -68,10 +68,10 @@ final public class LaunchAPI: LaunchAPIProtocol {
     
     /// Initializes an instance of `LaunchAPI` with optional dependencies.
     /// - Parameters:
-    ///   - dataBaseAPI: The database API instance to use. Defaults to `DataBaseAPI.shared`.
-    ///   - networkAPI: The network API instance to use. Defaults to `NetworkAPI.shared`.
-    public init(dataBaseAPI: DataBaseAPIProtocol = DataBaseAPI.shared,
-                networkAPI: NetworkAPIProtocol = NetworkAPI.shared) {
+    ///   - dataBaseAPI: The database API instance to use
+    ///   - networkAPI: The network API instance to use.
+    public init(dataBaseAPI: DataBaseAPIProtocol ,
+                networkAPI: NetworkAPIProtocol) {
         self.dataBaseAPI = dataBaseAPI
         self.networkAPI = networkAPI
         observeDataBasePublisher()

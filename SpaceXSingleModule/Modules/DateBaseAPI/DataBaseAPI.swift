@@ -40,10 +40,7 @@ public protocol DataBaseAPIProtocol {
     var changePublisher: PassthroughSubject<Void, Never> { get }
 }
 /// A class that implements `DataBaseAPIProtocol` to manage launch items in a JSON-based database.
-public final class DataBaseAPI: DataBaseAPIProtocol {
-    
-    /// The singleton instance of `DataBaseAPI`.
-    public static let shared = DataBaseAPI()
+public final class DataBaseAPI: DataBaseAPIProtocol { 
     
     /// The publisher that notifies subscribers of changes to the database.
     private let changeSubject = PassthroughSubject<Void, Never>()
@@ -52,7 +49,7 @@ public final class DataBaseAPI: DataBaseAPIProtocol {
         return changeSubject
     }
     
-    private init() {
+    init() {
         copyJSONFileIfNeeded()
     }
     

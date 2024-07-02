@@ -12,9 +12,13 @@ import Foundation
 /// `DependencyFactory` implements the `DependencyFactoryProtocol` and provides concrete implementations
 /// for building various view controllers. It also manages dependencies such as `LauncheAPI`.
 class DependencyFactory: DependencyFactoryProtocol {
-    
-    /// Lazy initialization of `LauncheAPI` conforming to `LauncheAPIProtocol`.
-    private lazy var launchAPI: LaunchAPIProtocol = LaunchAPI()
+     
+    /// Lazy initialization of `LaunchAPI` conforming to `LaunchAPIProtocol`.
+        private lazy var launchAPI: LaunchAPIProtocol = {
+            let networkAPI = NetworkAPI(httpClient: HttpClientManager.shared)
+            let databaseAPI = DataBaseAPI()
+            return LaunchAPI(dataBaseAPI: databaseAPI, networkAPI: networkAPI)
+        }()
     
     /// Creates and returns the initial project coordinator.
     ///
