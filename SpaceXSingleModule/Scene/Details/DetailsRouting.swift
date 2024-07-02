@@ -7,7 +7,7 @@
 import UIKit
 
 protocol DetailsRouting: CoordinatorRouter {
-    func popUp()
+    func openUrl(_ urlString: String?)
 }
 
 final class DetailsRouter: DetailsRouting {
@@ -21,7 +21,7 @@ final class DetailsRouter: DetailsRouting {
     }
     
     // MARK: - Navigation Methods
-    func popUp() {
-        coordinator?.popUp()
+    func openUrl(_ urlString: String?) {
+        coordinator?.openUrl(urlString)
     }
 }

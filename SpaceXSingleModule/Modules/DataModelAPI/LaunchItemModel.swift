@@ -23,7 +23,13 @@ public struct LaunchItemModel: Hashable, Identifiable {
     public let rocket: String
     public let success: Bool?
     public let details: String?
+    public let crew: [String]?
+    public let ships: [String]?
+    public let capsules: [String]?
+    public let payloads: [String]?
+    public let launchpad: String? 
     public let flightNumber: Int?
+    public let autoUpdate: Bool?
     public let upcoming: Bool?
     public let failures: [FailureItemModel]?
     public let cores: [CoreItemModel]?

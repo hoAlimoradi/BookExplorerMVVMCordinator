@@ -55,7 +55,7 @@ public enum AppStrings {
     
     //MARK: Details String
     public enum Details: String {
-        case title = "home_title"
+        case title = "details_title"
         
         var localized: String {
             return NSLocalizedString(self.rawValue, comment: "")

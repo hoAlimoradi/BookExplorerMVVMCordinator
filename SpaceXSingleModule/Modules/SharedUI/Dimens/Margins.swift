@@ -9,7 +9,6 @@ import Foundation
 
 struct TopMargin {
    static var spacing2: CGFloat = 2
-    //
    static var spacingNone: CGFloat = 0
    static var spacingXxs: CGFloat = 4
    static var spacingXs: CGFloat = 8
@@ -23,7 +22,6 @@ struct TopMargin {
 
 struct LeadingMargin {
    static var spacing1: CGFloat = 2
-   //
    static var spacingNone: CGFloat = 0
    static var spacingXxs: CGFloat = 4
    static var spacingXs: CGFloat = 8
@@ -35,7 +33,6 @@ struct LeadingMargin {
 }
 struct TrailingMargin {
     static var spacing1: CGFloat = -2
-    //
     static var spacingNone: CGFloat = 0
     static var spacingXxs: CGFloat = -4
     static var spacingXs: CGFloat = -8
@@ -48,7 +45,6 @@ struct TrailingMargin {
 
 struct BottomMargin {
     static var spacing2: CGFloat = -2
-    
     static var spacingNone: CGFloat = 0
     static var spacingXxs: CGFloat = -4
     static var spacingXs: CGFloat = -8
@@ -58,6 +54,4 @@ struct BottomMargin {
     static var spacingXl: CGFloat = -24
     static var spacingXxl: CGFloat = -28
     static var spacingBig: CGFloat = -40
-}
- 
-
+} 

@@ -68,6 +68,7 @@ final class HomeViewModel: HomeViewModelProtocol {
         launchModels.removeAll()
         seenIds.removeAll()
         launchListPaginationModel.page = 1
+        launchListPaginationModel.size = 20
         launchListTotal = 0
     }
     
@@ -88,6 +89,7 @@ final class HomeViewModel: HomeViewModelProtocol {
                 } else {
                     self.homeFetchState.send(.idleLaunch)
                 }
+                launchListPaginationModel.size = 50
             } catch {
                 self.launchListIsLoadingPage = false
                 self.launchListSubject.send([])
@@ -146,7 +148,31 @@ final class HomeViewModel: HomeViewModelProtocol {
     private func updateLaunchListSubject(by items: [LaunchItemModel]) {
         ensureUniqueIdentifiers(items: items)
         launchListSubject.send(launchModels)
+        updateLaunchListLocally(by: items)
     }
+    private func getStoredLaunchItemIDs() async throws -> Set<String> {
+        let ids = try await self.launchAPI.getLaunchItemIDs()
+            return Set(ids)
+        }
+        
+        private func filterExistingItems(_ items: [LaunchItemModel]) async throws -> [LaunchItemModel] {
+            let storedIDs = try await getStoredLaunchItemIDs()
+            let filteredItems = items.filter { storedIDs.contains($0.id) }
+            return filteredItems
+        }
+        
+        private func updateLaunchListLocally(by items: [LaunchItemModel]) {
+            Task { [weak self] in
+                guard let self = self else { return }
+                do {
+                    let filteredItems = try await self.filterExistingItems(items)
+                    try await self.launchAPI.updateLaunchItems(filteredItems)
+                    LoggingAPI.shared.log("updateLaunchListLocally success", level: .info)
+                } catch {
+                    LoggingAPI.shared.log("updateLaunchListLocally error: \(error.localizedDescription)", level: .error)
+                }
+            }
+        }
     
     /// Handles the selection of a launch item.
     ///

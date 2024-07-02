@@ -23,8 +23,7 @@ internal class HttpClientManager: HttpClientManagerProtocol {
     public var authenticatioErrorValuePublisher = PassthroughSubject<Bool, Never>()
     public var userBannedErrorValuePublisher = PassthroughSubject<Bool, Never>()
     public static let shared: HttpClientManager = .init()
-    
-    private let responseQueue = DispatchQueue.global(qos: .utility)
+     
     //MARK: --
     //let urlSession: URLSession
     private var provideURLSessionAPI: URLSessionProviderProtocol
@@ -33,7 +32,9 @@ internal class HttpClientManager: HttpClientManagerProtocol {
     private var webLogger: WebLoggerProtocol
     private var reponseLog = URLRequestLoggableImpl()
     private var cancellables: Set<AnyCancellable> = []
-    
+     
+    private var imageCache = NSCache<NSURL, UIImage>()
+       
     internal init() {
         webLogger = WebLogger()
         userDefaultsAPI = UserDefaults.standard

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FavoriteRouting: CoordinatorRouter {
-    func navigateToDetials()
+    func navigateToDetials(by launchItemModel: LaunchItemModel)
 }
 
 final class FavoriteRouter: FavoriteRouting {
@@ -22,7 +22,7 @@ final class FavoriteRouter: FavoriteRouting {
     }
     
     // MARK: - Navigation Methods
-    func navigateToDetials() {
-        //coordinator?.navigateToDetails(by: "id")
+    func navigateToDetials(by launchItemModel: LaunchItemModel) {
+        coordinator?.navigateToDetails(by: launchItemModel, isFavorite: true)
     }
 }
