@@ -11,13 +11,12 @@ import Foundation
 /// for the home screen. It fetches launch data from an API, manages pagination, and handles
 /// user actions related to the launch list.
 final class HomeViewModel: HomeViewModelProtocol {
-
     // Add any constants if needed in the future
     private enum Constants {
     }
     
     // MARK: - Properties
-    
+     
     /// Publishes the current route action for navigation.
     var route = CurrentValueSubject<HomeRouteAction, Never>(.idleRoute)
     
@@ -46,7 +45,9 @@ final class HomeViewModel: HomeViewModelProtocol {
     }
     
     // MARK: - Methods
+    // Your existing properties and methods...
     
+     
     /// Handles various actions related to the home screen.
     ///
     /// - Parameter handler: The action to be handled.
@@ -58,9 +59,28 @@ final class HomeViewModel: HomeViewModelProtocol {
             loadMoreLaunches()
         case .selectLaunch(let launch):
             selectLaunch(launch)
+        case .observeLifecycle(let lifecycleObserver):
+            observeLifecycle(with: lifecycleObserver)
         }
     }
     
+    private func observeLifecycle(with lifecycleEvent: LifecycleEvent) {
+        switch lifecycleEvent {
+        case .didLoadView:
+            getLaunches()
+        case .willAppearView,
+                .didAppearView,
+                .willDisappearView,
+                .didDisappearView,
+                .didBecomeActiveView,
+                .willResignActiveView,
+                .didEnterBackgroundView,
+                .willEnterForegroundView,
+                .didReceiveMemoryWarning,
+                .willTerminateApplication:
+            break
+        }
+    }
     // MARK: - Private Methods
     
     /// Resets properties related to fetching launches.

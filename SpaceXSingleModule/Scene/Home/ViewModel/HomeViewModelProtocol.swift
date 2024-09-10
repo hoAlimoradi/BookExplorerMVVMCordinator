@@ -8,7 +8,7 @@ import Foundation
 import Combine
  
 /// A protocol defining the required properties and methods for a Home ViewModel.
-protocol HomeViewModelProtocol {
+protocol HomeViewModelProtocol: LifecycleEventProtocol {
     /// A subject that handles routing actions related to the home view.
     var route: CurrentValueSubject<HomeRouteAction, Never> { get }
 
@@ -65,7 +65,7 @@ enum HomeFetchState: Equatable {
 enum HomeRouteAction {
     /// The idle route state, indicating no routing action is in progress.
     case idleRoute
-    
+   
     /// A routing action to navigate to the details of a specific launch item.
     /// - Parameter launchItem: The launch item model to navigate to details for.
     case navigateToDetails(LaunchItemModel)
@@ -74,6 +74,8 @@ enum HomeRouteAction {
 
 /// An enumeration representing the various actions that can be performed in the Home ViewModel.
 enum HomeViewModelAction {
+    case observeLifecycle(LifecycleEvent)
+    
     /// An action to fetch the list of launch items.
     case getLaunchs
     
