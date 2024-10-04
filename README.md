@@ -1,13 +1,13 @@
-# SpaceX
-# SpaceX Launches Viewer
+# BookExplorer
+# Book Explorer MVVM Cordinator
 
-A simple iOS application to view SpaceX launches using the SpaceX API. This project demonstrates the use of MVVM architecture, Combine for reactive programming, and compositional layout for modern UICollectionView layouts. It supports pagination and infinite scrolling to efficiently load and display SpaceX launches.
+A simple iOS application to explore, search, and view book details. This project demonstrates the use of MVVM architecture combined with a Coordinator for navigation flow. It also features reactive programming with Combine, efficient data handling using Realm for caching, and modern UICollectionView layouts for smooth and responsive UI.
 
 ## Features
 
 - **MVVM Architecture**: Ensures a clean separation of concerns.
 - **Combine Framework**: Utilized for data binding and reactive programming.
-- **Compositional Layout**: Provides a modern and flexible layout for displaying launches.
+- **Compositional Layout**: Provides a modern and flexible layout for displaying bookes.
 - **Pagination & Infinite Scrolling**: Supports efficient loading and displaying of large data sets.
 
 ## Requirements
@@ -71,10 +71,10 @@ Defines shared data models used throughout the application:
 - **Models**: Structured data representations used for serialization and deserialization.
 - **Serialization**: Handles data conversion between JSON and Swift objects.
 
-#### LaunchAPI
+#### SearchAPI
 
-Manages domain-specific operations related to fetching and managing launch data:
-- **Network Integration**: Retrieves launch data from remote APIs using URLSession.
+Manages domain-specific operations related to fetching and managing book data:
+- **Network Integration**: Retrieves book data from remote APIs using URLSession.
 - **Data Management**: Syncs data between local Realm storage and remote sources.
 
 #### NetworkAPI
@@ -87,7 +87,7 @@ Provides services for making API calls and handling network-related functionalit
 
 Manages persistent storage of application settings and preferences using UserDefaults:
 - **Settings Storage**: Stores user-specific preferences and configuration settings.
-- **User Defaults**: Ensures data persistence across app launches.
+- **User Defaults**: Ensures data persistence across app bookes.
 
 ## Remaining Work
 
