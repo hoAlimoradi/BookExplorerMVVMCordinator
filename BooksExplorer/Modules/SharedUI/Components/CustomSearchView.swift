@@ -45,10 +45,7 @@ class CustomSearchView: UIView {
         textField.borderStyle = .none
         textField.leftView = searchIcon
         textField.leftViewMode = .always
-        //textField.rightView = cancelIcon
-        //textField.rightViewMode = .whileEditing
         textField.clearButtonMode = .never
-        // Disable spell suggestion and autocorrection
         textField.autocorrectionType = .no
            
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
@@ -78,7 +75,7 @@ class CustomSearchView: UIView {
     }()
     
     let textSubject = PassthroughSubject<String?, Never>()
-    
+    let cancelButtonTappedSubject = PassthroughSubject<Void, Never>()
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -130,6 +127,7 @@ class CustomSearchView: UIView {
         textSubject.send(nil)
         cancelIcon.isHidden = true
         cancelButton.isHidden = true
+        cancelButtonTappedSubject.send()
     }
     
     @objc private func textFieldDidChange() {
@@ -142,10 +140,7 @@ class CustomSearchView: UIView {
                 cancelIcon.isHidden = false
                 cancelButton.isHidden = false
             }
-            //textField.leftViewMode = text.isEmpty ? .never : .always
         } else {
-            // Hide searchIcon if text is nil
-            //textField.leftViewMode = .never
             cancelIcon.isHidden = true
             cancelButton.isHidden = true
         }

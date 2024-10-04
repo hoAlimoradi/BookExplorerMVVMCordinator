@@ -15,8 +15,8 @@ final class HomeViewController: BaseViewController {
      private let router: HomeRouting
      private var cancellables = Set<AnyCancellable>()
      private let viewModel: HomeViewModelProtocol
-     //private let lifecycleObserver: LifecycleObserver<HomeViewModelProtocol>
-     private var state: HomeFetchState = .idleBook {
+
+    private var state: HomeFetchState = .idleBook {
          didSet {
              updateUI(for: state)
          }
@@ -36,19 +36,22 @@ final class HomeViewController: BaseViewController {
         let searchView = CustomSearchView()
         searchView.translatesAutoresizingMaskIntoConstraints = false
         searchView.textSubject
+            .compactMap { $0 }
+            .removeDuplicates()
             .sink {[weak self] text in
-                guard let self = self else {
-                    return
-                }
-                guard let text = text else {
-                    self.viewModel.action(.getBooks)
-                    return
-                }
+                guard let self = self else { return }
                 if(text.isEmpty) {
                     self.viewModel.action(.getBooks)
                 } else {
                     self.viewModel.action(.search(text))
                 }
+            }
+            .store(in: &cancellables)
+
+        searchView.cancelButtonTappedSubject
+            .sink {[weak self] text in
+                guard let self = self else { return }
+                self.view.endEditing(true)
             }
             .store(in: &cancellables)
         return searchView
